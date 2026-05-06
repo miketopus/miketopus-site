@@ -75,7 +75,7 @@ button { cursor: pointer; border: none; background: none; }
 }
 .nav-item:hover           { background: var(--bg-weak); }
 .nav-item.active          { background: var(--bg-mild); color: var(--text-accent); }
-.nav-item svg             { width: 24px; height: 24px; flex-shrink: 0; }
+.nav-icon { position: relative; width: 32px; height: 32px; overflow: hidden; flex-shrink: 0; }
 
 .header-social {
   display: flex;

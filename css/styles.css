@@ -201,6 +201,10 @@ button { cursor: pointer; border: none; background: none; }
   height: 458px;
   border-radius: var(--radius-lg);
   overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.big-card:hover {
+  transform: scale(0.95);
 }
 .big-card .card-bg {
   position: absolute;
@@ -218,11 +222,23 @@ button { cursor: pointer; border: none; background: none; }
   height: 113px;
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.big-card:hover .card-bar {
+  opacity: 1;
+  transform: translateY(0);
 }
 .card-info {
   position: absolute;
   bottom: 24px;
   left: 118px;
+  opacity: 0;
+  transition: opacity 0.25s ease 0.05s;
+}
+.big-card:hover .card-info {
+  opacity: 1;
 }
 .card-info h3 {
   font-family: var(--font-head);
@@ -259,7 +275,7 @@ button { cursor: pointer; border: none; background: none; }
 
 /* Keep bar and info above overlay */
 .card-bar  { z-index: 2; }
-.card-info { z-index: 2; }
+.card-info { z-index: 3; }
 
 /* Hover / Arrow button */
 .hover-btn {
@@ -277,7 +293,7 @@ button { cursor: pointer; border: none; background: none; }
 .hover-btn img { width: 100%; height: 100%; object-fit: contain; }
 .big-card:hover .hover-btn   { opacity: 1; }
 .small-card:hover .hover-btn { opacity: 1; }
-.hover-btn--sm               { opacity: 1; } /* always visible on featured */
+.small-card--featured:hover .hover-btn { opacity: 1; }
 
 /* Small Cards */
 .small-cards-grid {
@@ -293,6 +309,10 @@ button { cursor: pointer; border: none; background: none; }
   height: 216px;
   border-radius: var(--radius-sm);
   overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.small-card:hover {
+  transform: scale(0.95);
 }
 .small-card img.card-img {
   position: absolute;
@@ -318,6 +338,11 @@ button { cursor: pointer; border: none; background: none; }
   right: 16px;
   z-index: 2;
   color: white;
+  opacity: 0;
+  transition: opacity 0.25s ease 0.05s;
+}
+.small-card--featured:hover .card-content-featured {
+  opacity: 1;
 }
 .card-content-featured h3 {
   font-family: var(--font-head);

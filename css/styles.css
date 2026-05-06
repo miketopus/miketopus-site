@@ -237,6 +237,30 @@ button { cursor: pointer; border: none; background: none; }
   color: white;
 }
 
+/* Card hover overlay (purple gradient) */
+.big-card::before,
+.small-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(131,94,237,0.7) 0%, rgba(22,10,57,0.7) 100%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.big-card::before  { border-radius: var(--radius-lg); }
+.small-card::before { border-radius: var(--radius-sm); }
+.big-card:hover::before  { opacity: 1; }
+.small-card:hover::before { opacity: 1; }
+
+/* Featured card already has its own static overlay */
+.small-card--featured::before { display: none; }
+
+/* Keep bar and info above overlay */
+.card-bar  { z-index: 2; }
+.card-info { z-index: 2; }
+
 /* Hover / Arrow button */
 .hover-btn {
   position: absolute;
@@ -246,8 +270,14 @@ button { cursor: pointer; border: none; background: none; }
   height: 80px;
   padding: 0;
   background: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 3;
 }
 .hover-btn img { width: 100%; height: 100%; object-fit: contain; }
+.big-card:hover .hover-btn   { opacity: 1; }
+.small-card:hover .hover-btn { opacity: 1; }
+.hover-btn--sm               { opacity: 1; } /* always visible on featured */
 
 /* Small Cards */
 .small-cards-grid {
@@ -747,6 +777,7 @@ button { cursor: pointer; border: none; background: none; }
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--bg-weak);
+  cursor: pointer;
 }
 .work-small-card img {
   position: absolute;
@@ -754,7 +785,21 @@ button { cursor: pointer; border: none; background: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
 }
+.work-small-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(131,94,237,0.7) 0%, rgba(22,10,57,0.7) 100%);
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.work-small-card:hover::before { opacity: 1; }
+.work-small-card:hover img     { transform: scale(1.04); }
 .back-btn {
   display: inline-flex;
   align-items: center;

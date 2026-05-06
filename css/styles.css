@@ -223,8 +223,8 @@ button { cursor: pointer; border: none; background: none; }
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.08);
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transform: translateY(12px);
+  transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
 }
 .big-card:hover .card-bar {
   opacity: 1;
@@ -233,12 +233,9 @@ button { cursor: pointer; border: none; background: none; }
 .card-info {
   position: absolute;
   bottom: 24px;
-  left: 118px;
-  opacity: 0;
-  transition: opacity 0.25s ease 0.05s;
-}
-.big-card:hover .card-info {
-  opacity: 1;
+  left: 16px;
+  transform: translateX(0);
+  transition: transform 0.25s ease 0.1s;
 }
 .card-info h3 {
   font-family: var(--font-head);
@@ -273,11 +270,11 @@ button { cursor: pointer; border: none; background: none; }
 /* Featured card already has its own static overlay */
 .small-card--featured::before { display: none; }
 
-/* Keep bar and info above overlay */
+/* z-index stacking */
 .card-bar  { z-index: 2; }
 .card-info { z-index: 3; }
 
-/* Hover / Arrow button */
+/* Hover / Arrow button — slides in from left */
 .hover-btn {
   position: absolute;
   bottom: 16px;
@@ -287,13 +284,20 @@ button { cursor: pointer; border: none; background: none; }
   padding: 0;
   background: none;
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transform: translateX(-40px);
+  transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
   z-index: 3;
 }
 .hover-btn img { width: 100%; height: 100%; object-fit: contain; }
-.big-card:hover .hover-btn   { opacity: 1; }
-.small-card:hover .hover-btn { opacity: 1; }
-.small-card--featured:hover .hover-btn { opacity: 1; }
+.big-card:hover .hover-btn,
+.small-card:hover .hover-btn {
+  opacity: 1;
+  transform: translateX(0);
+}
+/* Card info shifts right as button slides in */
+.big-card:hover .card-info {
+  transform: translateX(102px);
+}
 
 /* Small Cards */
 .small-cards-grid {
@@ -338,11 +342,6 @@ button { cursor: pointer; border: none; background: none; }
   right: 16px;
   z-index: 2;
   color: white;
-  opacity: 0;
-  transition: opacity 0.25s ease 0.05s;
-}
-.small-card--featured:hover .card-content-featured {
-  opacity: 1;
 }
 .card-content-featured h3 {
   font-family: var(--font-head);
@@ -362,6 +361,8 @@ button { cursor: pointer; border: none; background: none; }
   width: 80px;
   height: 80px;
   z-index: 2;
+  transform: translateX(0); /* reset slide; just fades in */
+  transition: opacity 0.25s ease 0.1s;
 }
 
 /* ─── New Projects Section ───────────────────────────────────── */

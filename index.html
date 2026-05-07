@@ -6,6 +6,7 @@
   <title>miketopus — Product Designer</title>
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/components/site-header.js" defer></script>
+  <script src="js/components/work-card.js" defer></script>
 </head>
 <body class="page-home">
 
@@ -32,96 +33,47 @@
     </div>
 
     <div class="work-grid">
-      <!-- Big card -->
-      <article class="big-card">
-        <img
-          class="card-bg"
-          src="https://www.figma.com/api/mcp/asset/122d4b4c-e8bf-4fa6-b9a7-2dc95f123890"
-          alt="w space — icons project"
-        >
-        <div class="card-bar">
-          <div class="card-info">
-            <h3>w space</h3>
-            <p>icons</p>
-          </div>
-        </div>
-        <a href="work.html" class="hover-btn" aria-label="View w space project">
-          <img
-            src="https://www.figma.com/api/mcp/asset/94152844-b62e-43a8-855b-d146848c2d0f"
-            alt=""
-          >
-        </a>
-      </article>
 
-      <!-- Small cards -->
+      <work-card
+        variant="big"
+        src="https://www.figma.com/api/mcp/asset/122d4b4c-e8bf-4fa6-b9a7-2dc95f123890"
+        title="Name project"
+        category="icons"
+        href="work.html"
+      ></work-card>
+
       <div class="small-cards-grid">
-        <article class="small-card">
-          <img
-            class="card-img"
-            src="https://www.figma.com/api/mcp/asset/b8f0e58b-6a2a-4a3f-a551-b345981dfc26"
-            alt="project thumbnail"
-          >
-          <div class="small-card-info">
-            <h3>project</h3>
-            <p>design</p>
-          </div>
-          <a href="work.html" class="hover-btn hover-btn--sm" aria-label="View project">
-            <img src="https://www.figma.com/api/mcp/asset/318a5b1b-3fad-4403-8d51-725eba2649ec" alt="" style="position:absolute;inset:0;width:100%;height:100%;display:block;max-width:none">
-            <span style="position:absolute;top:35.89%;left:43.55%;right:40.99%;bottom:35.89%"><img src="https://www.figma.com/api/mcp/asset/a357fa32-664a-4d80-9c0d-a53782fe04ba" alt="" style="display:block;width:100%;height:100%;max-width:none"></span>
-          </a>
-        </article>
+        <work-card
+          src="https://www.figma.com/api/mcp/asset/b8f0e58b-6a2a-4a3f-a551-b345981dfc26"
+          title="Name project"
+          category="design"
+          href="work.html"
+        ></work-card>
 
-        <article class="small-card">
-          <img
-            class="card-img"
-            src="https://www.figma.com/api/mcp/asset/231239e2-9bb8-43ce-8447-ae861130d83a"
-            alt="project thumbnail"
-          >
-          <div class="small-card-info">
-            <h3>project</h3>
-            <p>design</p>
-          </div>
-          <a href="work.html" class="hover-btn hover-btn--sm" aria-label="View project">
-            <img src="https://www.figma.com/api/mcp/asset/318a5b1b-3fad-4403-8d51-725eba2649ec" alt="" style="position:absolute;inset:0;width:100%;height:100%;display:block;max-width:none">
-            <span style="position:absolute;top:35.89%;left:43.55%;right:40.99%;bottom:35.89%"><img src="https://www.figma.com/api/mcp/asset/a357fa32-664a-4d80-9c0d-a53782fe04ba" alt="" style="display:block;width:100%;height:100%;max-width:none"></span>
-          </a>
-        </article>
+        <work-card
+          src="https://www.figma.com/api/mcp/asset/231239e2-9bb8-43ce-8447-ae861130d83a"
+          title="Name project"
+          category="design"
+          href="work.html"
+        ></work-card>
 
-        <article class="small-card">
-          <img
-            class="card-img"
-            src="https://www.figma.com/api/mcp/asset/5d8437b3-a7b5-4eb7-ae11-8cb754ac6fbe"
-            alt="project thumbnail"
-          >
-          <div class="small-card-info">
-            <h3>project</h3>
-            <p>design</p>
-          </div>
-          <a href="work.html" class="hover-btn hover-btn--sm" aria-label="View project">
-            <img src="https://www.figma.com/api/mcp/asset/318a5b1b-3fad-4403-8d51-725eba2649ec" alt="" style="position:absolute;inset:0;width:100%;height:100%;display:block;max-width:none">
-            <span style="position:absolute;top:35.89%;left:43.55%;right:40.99%;bottom:35.89%"><img src="https://www.figma.com/api/mcp/asset/a357fa32-664a-4d80-9c0d-a53782fe04ba" alt="" style="display:block;width:100%;height:100%;max-width:none"></span>
-          </a>
-        </article>
+        <work-card
+          src="https://www.figma.com/api/mcp/asset/5d8437b3-a7b5-4eb7-ae11-8cb754ac6fbe"
+          title="Name project"
+          category="design"
+          href="work.html"
+        ></work-card>
 
-        <article class="small-card small-card--featured">
-          <img
-            class="card-img"
-            src="https://www.figma.com/api/mcp/asset/0083ed97-44ec-4afe-b645-390a003c98ec"
-            alt="w pills — 3D Freebie"
-          >
-          <div class="card-overlay" aria-hidden="true"></div>
-          <div class="card-content-featured">
-            <h3>w pills</h3>
-            <p>3D - Freebie</p>
-          </div>
-          <a href="work.html" class="hover-btn hover-btn--sm" aria-label="View w pills project">
-            <img
-              src="https://www.figma.com/api/mcp/asset/9f6a4041-832d-4629-87ae-8131712eb9ea"
-              alt=""
-            >
-          </a>
-        </article>
+        <work-card
+          variant="small"
+          featured
+          src="https://www.figma.com/api/mcp/asset/0083ed97-44ec-4afe-b645-390a003c98ec"
+          title="Name project"
+          category="3D — Freebie"
+          href="work.html"
+        ></work-card>
       </div>
+
     </div>
   </section>
 

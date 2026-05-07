@@ -74,7 +74,9 @@ button { cursor: pointer; border: none; background: none; }
   white-space: nowrap;
 }
 .nav-item:hover           { background: var(--bg-weak); }
-.nav-item.active          { background: var(--bg-mild); color: var(--text-accent); }
+.nav-item.active          { background: var(--bg-weak); color: var(--text-accent); }
+.nav-item.active:hover    { background: var(--bg-mild); }
+.nav-item:hover .nav-icon { opacity: 0.5; }
 .nav-icon { position: relative; width: 32px; height: 32px; overflow: hidden; flex-shrink: 0; }
 
 .header-social {

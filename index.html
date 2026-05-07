@@ -6,6 +6,7 @@
   <title>miketopus — Product Designer</title>
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/components/site-header.js" defer></script>
+  <script src="js/components/work-card.js" defer></script>
 </head>
 <body class="page-home">
 
@@ -32,102 +33,46 @@
     </div>
 
     <div class="work-grid">
-      <!-- Big card -->
-      <article class="big-card">
-        <img
-          class="card-bg"
-          src="https://www.figma.com/api/mcp/asset/122d4b4c-e8bf-4fa6-b9a7-2dc95f123890"
-          alt="Name project"
-        >
-        <div class="card-bar">
-          <div class="card-info">
-            <h3>Name project</h3>
-            <p>icons</p>
-          </div>
-        </div>
-        <a href="work.html" class="hover-btn" aria-label="View project">
-          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="40" cy="40" r="40" fill="white" fill-opacity="0.12"/>
-            <path d="M28 40H52M44 32L52 40L44 48" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </article>
 
-      <!-- Small cards -->
+      <work-card
+        variant="big"
+        src="https://www.figma.com/api/mcp/asset/122d4b4c-e8bf-4fa6-b9a7-2dc95f123890"
+        title="Name project"
+        category="icons"
+        href="work.html"
+      ></work-card>
+
       <div class="small-cards-grid">
-        <article class="small-card">
-          <img
-            class="card-img"
-            src="https://www.figma.com/api/mcp/asset/b8f0e58b-6a2a-4a3f-a551-b345981dfc26"
-            alt="Name project"
-          >
-          <div class="small-card-info">
-            <h3>Name project</h3>
-            <p>design</p>
-          </div>
-          <a href="work.html" class="hover-btn hover-btn--sm" aria-label="View project">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="28" cy="28" r="28" fill="white" fill-opacity="0.12"/>
-              <path d="M18 28H38M31 21L38 28L31 35" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-        </article>
+        <work-card
+          src="https://www.figma.com/api/mcp/asset/b8f0e58b-6a2a-4a3f-a551-b345981dfc26"
+          title="Name project"
+          category="design"
+          href="work.html"
+        ></work-card>
 
-        <article class="small-card">
-          <img
-            class="card-img"
-            src="https://www.figma.com/api/mcp/asset/231239e2-9bb8-43ce-8447-ae861130d83a"
-            alt="Name project"
-          >
-          <div class="small-card-info">
-            <h3>Name project</h3>
-            <p>design</p>
-          </div>
-          <a href="work.html" class="hover-btn hover-btn--sm" aria-label="View project">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="28" cy="28" r="28" fill="white" fill-opacity="0.12"/>
-              <path d="M18 28H38M31 21L38 28L31 35" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-        </article>
+        <work-card
+          src="https://www.figma.com/api/mcp/asset/231239e2-9bb8-43ce-8447-ae861130d83a"
+          title="Name project"
+          category="design"
+          href="work.html"
+        ></work-card>
 
-        <article class="small-card">
-          <img
-            class="card-img"
-            src="https://www.figma.com/api/mcp/asset/5d8437b3-a7b5-4eb7-ae11-8cb754ac6fbe"
-            alt="Name project"
-          >
-          <div class="small-card-info">
-            <h3>Name project</h3>
-            <p>design</p>
-          </div>
-          <a href="work.html" class="hover-btn hover-btn--sm" aria-label="View project">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="28" cy="28" r="28" fill="white" fill-opacity="0.12"/>
-              <path d="M18 28H38M31 21L38 28L31 35" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-        </article>
+        <work-card
+          src="https://www.figma.com/api/mcp/asset/5d8437b3-a7b5-4eb7-ae11-8cb754ac6fbe"
+          title="Name project"
+          category="design"
+          href="work.html"
+        ></work-card>
 
-        <article class="small-card small-card--featured">
-          <img
-            class="card-img"
-            src="https://www.figma.com/api/mcp/asset/0083ed97-44ec-4afe-b645-390a003c98ec"
-            alt="Name project — 3D Freebie"
-          >
-          <div class="card-overlay" aria-hidden="true"></div>
-          <div class="card-content-featured">
-            <h3>Name project</h3>
-            <p>3D — Freebie</p>
-          </div>
-          <a href="work.html" class="hover-btn hover-btn--sm" aria-label="View project">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="28" cy="28" r="28" fill="white" fill-opacity="0.12"/>
-              <path d="M18 28H38M31 21L38 28L31 35" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-        </article>
+        <work-card
+          variant="featured"
+          src="https://www.figma.com/api/mcp/asset/0083ed97-44ec-4afe-b645-390a003c98ec"
+          title="Name project"
+          category="3D — Freebie"
+          href="work.html"
+        ></work-card>
       </div>
+
     </div>
   </section>
 

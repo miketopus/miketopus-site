@@ -365,6 +365,26 @@ button { cursor: pointer; border: none; background: none; }
   transition: opacity 0.25s ease 0.1s;
 }
 
+/* Small Card info — content visible by default at top */
+.small-card-info {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  right: 16px;
+  z-index: 3;
+  color: white;
+}
+.small-card-info h3 {
+  font-family: var(--font-head);
+  font-size: 32px;
+  line-height: 32px;
+  letter-spacing: -0.64px;
+}
+.small-card-info p {
+  font-size: 18px;
+  line-height: 30px;
+}
+
 /* ─── New Projects Section ───────────────────────────────────── */
 .section-new-projects {
   position: relative;

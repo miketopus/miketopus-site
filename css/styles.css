@@ -28,6 +28,7 @@ body {
   color: var(--text-strong);
   font-family: var(--font-mono);
   overflow-x: hidden;
+  padding-top: 96px;
 }
 img  { display: block; max-width: 100%; }
 a    { text-decoration: none; color: inherit; }
@@ -35,8 +36,10 @@ button { cursor: pointer; border: none; background: none; }
 
 /* ─── Header ─────────────────────────────────────────────────── */
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   height: 96px;
   display: flex;
@@ -1186,3 +1189,9 @@ button { cursor: pointer; border: none; background: none; }
   z-index: 1;
 }
 .single-related-card:hover::before { opacity: 1; }
+
+/* small-card inside related grid stretches to fill column */
+.single-related-grid .small-card {
+  width: 100%;
+  height: 216px;
+}

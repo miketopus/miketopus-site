@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System — miketopus</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/components/site-header.js" defer></script>
+  <style>
+    /* ─── DS Page Layout ─────────────────────────────────────────── */
+    .ds-page { padding: 80px 152px 120px; }
+
+    .ds-hero { margin-bottom: 96px; }
+    .ds-hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(64px, 10vw, 160px);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      color: var(--text-strong);
+    }
+    .ds-hero p {
+      font-size: 18px;
+      line-height: 30px;
+      color: var(--text-sub);
+      margin-top: 16px;
+    }
+
+    .ds-section { margin-bottom: 80px; }
+    .ds-section-label {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #1d212e;
+    }
+    .ds-section-title {
+      font-family: var(--font-head);
+      font-size: 32px;
+      letter-spacing: -0.64px;
+      color: var(--text-strong);
+      margin-bottom: 32px;
+    }
+
+    /* ─── Color Swatches ─────────────────────────────────────────── */
+    .ds-swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .ds-swatch {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 140px;
+    }
+    .ds-swatch-color {
+      height: 80px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .ds-swatch-name {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-weak);
+    }
+    .ds-swatch-value {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: -4px;
+    }
+
+    /* ─── Typography ─────────────────────────────────────────────── */
+    .ds-type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid #1d212e;
+    }
+    .ds-type-meta {
+      width: 180px;
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* ─── Radius ─────────────────────────────────────────────────── */
+    .ds-radius-row {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .ds-radius-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .ds-radius-box {
+      width: 120px;
+      height: 80px;
+      background: var(--bg-weak);
+      border: 1px solid #282e3f;
+    }
+    .ds-radius-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    /* ─── Components ─────────────────────────────────────────────── */
+    .ds-component-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 24px 0;
+      border-bottom: 1px solid #1d212e;
+    }
+    .ds-component-label {
+      width: 180px;
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+
+    /* ─── Card Previews ──────────────────────────────────────────── */
+    .ds-cards-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .ds-card-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ds-card-wrap .ds-swatch-name {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    /* ─── Token Table ────────────────────────────────────────────── */
+    .ds-token-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+    .ds-token-table th {
+      text-align: left;
+      padding: 8px 16px 8px 0;
+      border-bottom: 1px solid #1d212e;
+      color: var(--text-sub);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+    .ds-token-table td {
+      padding: 12px 16px 12px 0;
+      border-bottom: 1px solid #0d0f14;
+      color: var(--text-weak);
+      vertical-align: middle;
+    }
+    .ds-token-table td:first-child { color: var(--text-accent); }
+    .ds-token-chip {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      vertical-align: middle;
+      margin-right: 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 900px) {
+      .ds-page { padding: 48px 24px 80px; }
+      .ds-component-label { width: 100%; }
+    }
+  </style>
+</head>
+<body class="page-home">
+
+  <site-header page=""></site-header>
+
+  <div class="ds-page">
+
+    <!-- ─── Hero ──────────────────────────────────────────────── -->
+    <div class="ds-hero">
+      <h1>design<br>system</h1>
+      <p>Tokens, typography, and components for miketopus.com</p>
+    </div>
+
+    <!-- ─── 01 · Colors ───────────────────────────────────────── -->
+    <section class="ds-section">
+      <p class="ds-section-label">01 — Colors</p>
+
+      <p class="ds-section-title">Backgrounds</p>
+      <div class="ds-swatches" style="margin-bottom:40px">
+        <div class="ds-swatch">
+          <div class="ds-swatch-color" style="background:#090a0d"></div>
+          <span class="ds-swatch-name">--bg-base</span>
+          <span class="ds-swatch-value">#090a0d</span>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-color" style="background:#0d0f14"></div>
+          <span class="ds-swatch-name">--bg-mild</span>
+          <span class="ds-swatch-value">#0d0f14</span>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-color" style="background:#161922"></div>
+          <span class="ds-swatch-name">--bg-weak</span>
+          <span class="ds-swatch-value">#161922</span>
+        </div>
+      </div>
+
+      <p class="ds-section-title">Text</p>
+      <div class="ds-swatches">
+        <div class="ds-swatch">
+          <div class="ds-swatch-color" style="background:#ffffff"></div>
+          <span class="ds-swatch-name">--text-strong</span>
+          <span class="ds-swatch-value">#ffffff</span>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-color" style="background:#9ca6c5"></div>
+          <span class="ds-swatch-name">--text-weak</span>
+          <span class="ds-swatch-value">#9ca6c5</span>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-color" style="background:#646e8a"></div>
+          <span class="ds-swatch-name">--text-sub</span>
+          <span class="ds-swatch-value">#646e8a</span>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-color" style="background:#835eed"></div>
+          <span class="ds-swatch-name">--text-link</span>
+          <span class="ds-swatch-value">#835eed</span>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-color" style="background:#0084ff"></div>
+          <span class="ds-swatch-name">--text-accent</span>
+          <span class="ds-swatch-value">#0084ff</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 02 · Typography ───────────────────────────────────── -->
+    <section class="ds-section">
+      <p class="ds-section-label">02 — Typography</p>
+
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          --font-head<br>
+          Archivo Black<br>
+          256px / -0.06em
+        </div>
+        <span style="font-family:var(--font-head);font-size:clamp(64px,13vw,256px);line-height:0.9;letter-spacing:-0.06em;color:var(--text-strong)">hello</span>
+      </div>
+
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          --font-head<br>
+          Archivo Black<br>
+          48px / -0.96px
+        </div>
+        <span style="font-family:var(--font-head);font-size:48px;line-height:56px;letter-spacing:-0.96px;color:var(--text-strong)">Section heading</span>
+      </div>
+
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          --font-head<br>
+          Archivo Black<br>
+          32px / -0.64px
+        </div>
+        <span style="font-family:var(--font-head);font-size:32px;line-height:32px;letter-spacing:-0.64px;color:var(--text-strong)">Card title</span>
+      </div>
+
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          --font-head<br>
+          Archivo Black<br>
+          24px / nav &amp; buttons
+        </div>
+        <span style="font-family:var(--font-head);font-size:24px;line-height:24px;color:var(--text-strong)">Navigation label</span>
+      </div>
+
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          --font-mono<br>
+          IBM Plex Mono 300<br>
+          28px / -0.04em
+        </div>
+        <span style="font-family:var(--font-mono);font-weight:300;font-size:28px;line-height:32px;letter-spacing:-0.04em;color:var(--text-weak)">Body / hero description text</span>
+      </div>
+
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          --font-mono<br>
+          IBM Plex Mono 400<br>
+          18px / 30px
+        </div>
+        <span style="font-family:var(--font-mono);font-size:18px;line-height:30px;color:var(--text-weak)">Body copy, footer, labels, card subtitles</span>
+      </div>
+
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          --font-mono italic<br>
+          IBM Plex Mono<br>
+          64px — floating pills
+        </div>
+        <span style="font-family:var(--font-mono);font-style:italic;font-size:64px;line-height:56px;letter-spacing:-1.28px;color:var(--text-strong)">art</span>
+      </div>
+    </section>
+
+    <!-- ─── 03 · Radius ───────────────────────────────────────── -->
+    <section class="ds-section">
+      <p class="ds-section-label">03 — Border Radius</p>
+      <div class="ds-radius-row">
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius:var(--radius-pill)"></div>
+          <span class="ds-radius-label">--radius-pill<br>1000px — buttons, nav</span>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius:var(--radius-lg)"></div>
+          <span class="ds-radius-label">--radius-lg<br>40px — big cards</span>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius:var(--radius-sm)"></div>
+          <span class="ds-radius-label">--radius-sm<br>24px — small cards, mobile menu</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 04 · Components ───────────────────────────────────── -->
+    <section class="ds-section">
+      <p class="ds-section-label">04 — Components</p>
+
+      <!-- Buttons -->
+      <p class="ds-section-title">Buttons</p>
+
+      <div class="ds-component-row">
+        <span class="ds-component-label">.btn-pill<br>Primary CTA</span>
+        <a class="btn-pill">view more</a>
+        <a class="btn-pill" style="color:var(--text-strong)">email</a>
+      </div>
+
+      <div class="ds-component-row">
+        <span class="ds-component-label">.filter-pill<br>Category filters</span>
+        <button class="filter-pill active">all</button>
+        <button class="filter-pill">illustration</button>
+        <button class="filter-pill">3D</button>
+        <button class="filter-pill">web</button>
+        <button class="filter-pill">freebie</button>
+      </div>
+
+      <div class="ds-component-row" style="border-bottom:none">
+        <span class="ds-component-label">.back-btn<br>Navigation</span>
+        <a class="back-btn" aria-label="Back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round">
+            <path d="M19 12H5M12 5l-7 7 7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Cards -->
+      <p class="ds-section-title" style="margin-top:48px">Cards</p>
+      <div class="ds-cards-row">
+
+        <div class="ds-card-wrap">
+          <div class="big-card" style="position:relative;width:360px;height:260px">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,#161922 0%,#0d0f14 100%);border-radius:var(--radius-lg)"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text-sub);font-family:var(--font-mono);font-size:13px">image</div>
+            <div class="card-bar">
+              <div class="card-info">
+                <h3>project title</h3>
+                <p>category</p>
+              </div>
+            </div>
+          </div>
+          <span class="ds-swatch-name">.big-card — hover to preview</span>
+        </div>
+
+        <div class="ds-card-wrap">
+          <div class="small-card" style="position:relative;width:268px;height:216px">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,#161922 0%,#0d0f14 100%);border-radius:var(--radius-sm)"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text-sub);font-family:var(--font-mono);font-size:13px">image</div>
+            <div class="small-card-info">
+              <h3>project</h3>
+              <p>design</p>
+            </div>
+          </div>
+          <span class="ds-swatch-name">.small-card — hover to preview</span>
+        </div>
+
+        <div class="ds-card-wrap">
+          <div class="small-card small-card--featured" style="position:relative;width:268px;height:216px">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,#161922 0%,#0d0f14 100%);border-radius:var(--radius-sm)"></div>
+            <div class="card-overlay"></div>
+            <div class="card-content-featured">
+              <h3>w pills</h3>
+              <p>3D — Freebie</p>
+            </div>
+          </div>
+          <span class="ds-swatch-name">.small-card--featured — purple overlay</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── 05 · Motion ───────────────────────────────────────── -->
+    <section class="ds-section">
+      <p class="ds-section-label">05 — Motion</p>
+      <table class="ds-token-table">
+        <thead>
+          <tr>
+            <th>Usage</th>
+            <th>Value</th>
+            <th>Applied to</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Standard</td>
+            <td>0.15s ease</td>
+            <td>bg, color, opacity transitions</td>
+          </tr>
+          <tr>
+            <td>Card scale</td>
+            <td>0.35s cubic-bezier(0.4, 0, 0.2, 1)</td>
+            <td>.big-card, .small-card hover</td>
+          </tr>
+          <tr>
+            <td>Reveal</td>
+            <td>0.25s ease 0.1s</td>
+            <td>.card-bar, .hover-btn, .card-info slide</td>
+          </tr>
+          <tr>
+            <td>Mobile menu</td>
+            <td>0.4s cubic-bezier(0.34, 1.56, 0.64, 1)</td>
+            <td>Bounce spring on open</td>
+          </tr>
+          <tr>
+            <td>Menu icon</td>
+            <td>0.35s cubic-bezier(0.34, 1.56, 0.64, 1)</td>
+            <td>Chevron rotate 180° on open</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ─── 06 · All Tokens ───────────────────────────────────── -->
+    <section class="ds-section">
+      <p class="ds-section-label">06 — Token Reference</p>
+      <table class="ds-token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>--bg-base</td><td><span class="ds-token-chip" style="background:#090a0d"></span>#090a0d</td></tr>
+          <tr><td>--bg-mild</td><td><span class="ds-token-chip" style="background:#0d0f14"></span>#0d0f14</td></tr>
+          <tr><td>--bg-weak</td><td><span class="ds-token-chip" style="background:#161922"></span>#161922</td></tr>
+          <tr><td>--text-strong</td><td><span class="ds-token-chip" style="background:#ffffff"></span>#ffffff</td></tr>
+          <tr><td>--text-weak</td><td><span class="ds-token-chip" style="background:#9ca6c5"></span>#9ca6c5</td></tr>
+          <tr><td>--text-sub</td><td><span class="ds-token-chip" style="background:#646e8a"></span>#646e8a</td></tr>
+          <tr><td>--text-link</td><td><span class="ds-token-chip" style="background:#835eed"></span>#835eed</td></tr>
+          <tr><td>--text-accent</td><td><span class="ds-token-chip" style="background:#0084ff"></span>#0084ff</td></tr>
+          <tr><td>--radius-pill</td><td>1000px</td></tr>
+          <tr><td>--radius-lg</td><td>40px</td></tr>
+          <tr><td>--radius-sm</td><td>24px</td></tr>
+          <tr><td>--font-head</td><td>'Archivo Black', sans-serif</td></tr>
+          <tr><td>--font-mono</td><td>'IBM Plex Mono', monospace</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+
+  <!-- ─── Footer ──────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="footer-space" aria-hidden="true">
+      <div class="footer-glow"></div>
+      <img class="space-invader si-1" src="https://www.figma.com/api/mcp/asset/4c0de6ea-f7a8-4462-82c2-7210b7400473" alt="">
+      <img class="space-invader si-4" src="https://www.figma.com/api/mcp/asset/4c0de6ea-f7a8-4462-82c2-7210b7400473" alt="">
+      <img class="space-invader si-7" src="https://www.figma.com/api/mcp/asset/4c0de6ea-f7a8-4462-82c2-7210b7400473" alt="">
+    </div>
+    <div class="bar-footer">
+      <span>All Rights Reserved  ©2024</span>
+      <a href="wall-space.html">Wall Space Store</a>
+    </div>
+  </footer>
+
+</body>
+</html>

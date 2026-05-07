@@ -75,7 +75,7 @@
 
   const SOCIAL = {
     default: `
-      <a href="https://instagram.com" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="https://www.figma.com/api/mcp/asset/1fa87762-e164-4d80-aee9-9835ac451192" alt="Instagram" width="20" height="20"></a>
+      <a href="https://instagram.com" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="https://www.figma.com/api/mcp/asset/b90a4ab9-4300-4e0c-8b23-fb789af8d24a" alt="Instagram" width="20" height="20"></a>
       <a href="https://dribbble.com"  class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Dribbble"><img src="https://www.figma.com/api/mcp/asset/3104bc10-15c8-4727-a969-c171d7b62811" alt="Dribbble"  width="20" height="20"></a>
       <a href="https://unsplash.com"  class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Unsplash"><img src="https://www.figma.com/api/mcp/asset/44451d82-714c-4376-ab2f-7b1850032694" alt="Unsplash"  width="20" height="20"></a>`,
     'wall-space': `

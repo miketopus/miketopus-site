@@ -276,7 +276,8 @@ button { cursor: pointer; border: none; background: none; }
   font-size: 28px;
   line-height: 32px;
   letter-spacing: -0.04em;
-  color: var(--text-weak);
+  color: rgba(255, 255, 255, 0.8);
+  mix-blend-mode: plus-lighter;
   max-width: 680px;
   margin-top: 16px;
 }

@@ -167,12 +167,13 @@ button { cursor: pointer; border: none; background: none; }
   width: 700px;
   height: 450px;
   background: radial-gradient(ellipse at 38% 42%,
-    #e0c8ff 0%,
-    #835eed 45%,
-    #3a159e 100%
+    #f0e0ff 0%,
+    #a074ff 30%,
+    #835eed 55%,
+    #2a0a7e 100%
   );
-  opacity: 0.6;
-  filter: blur(200px);
+  opacity: 0.7;
+  filter: blur(400px);
   top: -180px;
   left: -150px;
   border-radius: 60% 40% 70% 30% / 50% 60% 40% 70%;
@@ -183,12 +184,13 @@ button { cursor: pointer; border: none; background: none; }
   width: 620px;
   height: 420px;
   background: radial-gradient(ellipse at 62% 38%,
-    #a8d8ff 0%,
-    #0084ff 45%,
-    #003080 100%
+    #d0ecff 0%,
+    #50aaff 30%,
+    #0084ff 55%,
+    #001f60 100%
   );
-  opacity: 0.5;
-  filter: blur(220px);
+  opacity: 0.6;
+  filter: blur(400px);
   top: -160px;
   right: -140px;
   border-radius: 40% 60% 30% 70% / 60% 40% 70% 30%;
@@ -197,17 +199,17 @@ button { cursor: pointer; border: none; background: none; }
 
 @keyframes blob-drift-a {
   0%   { transform: translate(0, 0); }
-  25%  { transform: translate(52vw, 28vh); }
-  50%  { transform: translate(72vw, 48vh); }
-  75%  { transform: translate(12vw, 42vh); }
+  25%  { transform: translate(52vw, 18vh); }
+  50%  { transform: translate(72vw, 30vh); }
+  75%  { transform: translate(12vw, 25vh); }
   100% { transform: translate(0, 0); }
 }
 
 @keyframes blob-drift-b {
   0%   { transform: translate(0, 0); }
-  30%  { transform: translate(-58vw, 22vh); }
-  58%  { transform: translate(-18vw, 46vh); }
-  80%  { transform: translate(-68vw, 35vh); }
+  30%  { transform: translate(-58vw, 14vh); }
+  58%  { transform: translate(-18vw, 28vh); }
+  80%  { transform: translate(-68vw, 20vh); }
   100% { transform: translate(0, 0); }
 }
 
@@ -235,7 +237,7 @@ button { cursor: pointer; border: none; background: none; }
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.045;
+  opacity: 0.09;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 128px;

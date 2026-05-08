@@ -163,6 +163,23 @@ button { cursor: pointer; border: none; background: none; }
   mix-blend-mode: screen;
 }
 
+.hero-blob--purple-glow {
+  width: 700px;
+  height: 450px;
+  background: radial-gradient(ellipse at 42% 46%,
+    #ffffff 0%,
+    #d4aaff 25%,
+    #a855f7 50%,
+    #6d22e0 100%
+  );
+  opacity: 0.55;
+  filter: blur(800px);
+  top: -120px;
+  left: -60px;
+  border-radius: 60% 40% 70% 30% / 50% 60% 40% 70%;
+  animation: blob-drift-a 75s ease-in-out infinite, blob-morph-a 14s ease-in-out infinite;
+}
+
 .hero-blob--purple {
   width: 700px;
   height: 450px;

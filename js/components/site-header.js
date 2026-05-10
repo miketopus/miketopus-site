@@ -37,11 +37,13 @@
     default: `
       <a href="https://www.instagram.com/miketopus" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icons/instagram.svg" alt="Instagram" width="20" height="20"></a>
       <a href="https://dribbble.com/miketopus"      class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Dribbble"><img src="assets/icons/dribbble.svg"   alt="Dribbble"  width="20" height="20"></a>
-      <a href="https://unsplash.com/es/@miketopus"  class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Unsplash"><img src="assets/icons/unsplash.svg"   alt="Unsplash"  width="20" height="20"></a>`,
+      <a href="https://unsplash.com/es/@miketopus"  class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Unsplash"><img src="assets/icons/unsplash.svg"   alt="Unsplash"  width="20" height="20"></a>
+      <a href="https://figma.com/@miketopus"        class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Figma"><img src="assets/icons/figma.svg"         alt="Figma"     width="20" height="20"></a>`,
     'wall-space': `
       <a href="https://www.instagram.com/miketopus" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icons/instagram.svg" alt="Instagram" width="20" height="20"></a>
       <a href="https://dribbble.com/miketopus"      class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Dribbble"><img src="assets/icons/dribbble.svg"   alt="Dribbble"  width="20" height="20"></a>
-      <a href="https://unsplash.com/es/@miketopus"  class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Unsplash"><img src="assets/icons/unsplash.svg"   alt="Unsplash"  width="20" height="20"></a>`,
+      <a href="https://unsplash.com/es/@miketopus"  class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Unsplash"><img src="assets/icons/unsplash.svg"   alt="Unsplash"  width="20" height="20"></a>
+      <a href="https://figma.com/@miketopus"        class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Figma"><img src="assets/icons/figma.svg"         alt="Figma"     width="20" height="20"></a>`,
   };
 
   /* ─── Helpers ────────────────────────────────────────────────── */

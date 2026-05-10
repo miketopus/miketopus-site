@@ -570,6 +570,9 @@ button { cursor: pointer; border: none; background: none; }
 
 /* Bar Footer */
 .bar-footer {
+  position: relative;
+  z-index: 2;
+  margin-top: -96px;
   height: 96px;
   display: flex;
   align-items: center;
@@ -1037,8 +1040,8 @@ button { cursor: pointer; border: none; background: none; }
   margin-bottom: 24px;
 }
 .about-parche {
-  width: 104px;
-  height: 104px;
+  width: 208px;
+  height: 208px;
   object-fit: contain;
 }
 
@@ -1086,12 +1089,21 @@ button { cursor: pointer; border: none; background: none; }
   line-height: 26px;
   color: var(--text-strong);
   white-space: nowrap;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.logo-pill:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(131, 94, 237, 0.35);
+}
+
+.logo-pill:hover .logo-pill-ext {
+  opacity: 1;
 }
 
 .logo-pill--featured {
   background: var(--bg-weak);
   border: 1px solid #282e3f;
-  box-shadow: 0 10px 9px rgba(131, 94, 237, 0.2);
 }
 
 .logo-pill-img {
@@ -1105,8 +1117,9 @@ button { cursor: pointer; border: none; background: none; }
 .logo-pill-ext {
   width: 20px;
   height: 20px;
-  opacity: 0.4;
+  opacity: 0;
   flex-shrink: 0;
+  transition: opacity 0.22s ease;
 }
 
 /* Divider at bottom of content */

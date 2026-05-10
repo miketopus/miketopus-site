@@ -20,6 +20,14 @@ work-card    { display: contents; }
   --font-mono:  'IBM Plex Mono', monospace;
 }
 
+/* ─── Shared Animations ─────────────────────────────────────── */
+@keyframes btn-press {
+  0%   { transform: scale(1);    }
+  35%  { transform: scale(0.93); }
+  68%  { transform: scale(0.97); }
+  100% { transform: scale(0.95); }
+}
+
 /* ─── Reset ─────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -81,13 +89,7 @@ button { cursor: pointer; border: none; background: none; }
 }
 .nav-item:hover {
   background: var(--bg-weak);
-  animation: nav-hover-shrink 0.35s ease forwards;
-}
-@keyframes nav-hover-shrink {
-  0%   { transform: scale(1); }
-  35%  { transform: scale(0.93); }
-  68%  { transform: scale(0.97); }
-  100% { transform: scale(0.95); }
+  animation: btn-press 0.35s ease forwards;
 }
 .nav-item.active          { background: var(--bg-weak); color: var(--text-accent); }
 .nav-item.active:hover    { background: var(--bg-mild); }
@@ -871,25 +873,34 @@ button { cursor: pointer; border: none; background: none; }
   padding: 0 152px;
   margin-bottom: 40px;
 }
-.filter-pill {
-  padding: 10px 20px;
-  border-radius: var(--radius-pill);
-  background: var(--bg-weak);
-  font-family: var(--font-mono);
-  font-size: 16px;
-  color: var(--text-weak);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-.filter-pill:hover, .filter-pill.active {
-  background: var(--text-link);
-  color: white;
-}
+
 .work-cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px 20px;
   padding: 0 152px 80px;
+}
+
+/* Grid cards — block so opacity/transform work for filter animation */
+.work-cards-grid work-card {
+  display: block;
+}
+
+@keyframes card-cascade-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+@keyframes card-cascade-out {
+  from { opacity: 1; transform: scale(1);    }
+  to   { opacity: 0; transform: scale(0.94); }
+}
+
+.work-cards-grid work-card.card-in {
+  animation: card-cascade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--card-delay, 0ms);
+}
+.work-cards-grid work-card.card-out {
+  animation: card-cascade-out 0.2s ease forwards;
 }
 .work-small-card {
   position: relative;
@@ -964,6 +975,53 @@ button { cursor: pointer; border: none; background: none; }
 }
 .back-btn:hover { background: #1e2430; }
 .back-btn svg { width: 24px; height: 24px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TAG PILL COMPONENT
+═══════════════════════════════════════════════════════════════ */
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  background: var(--bg-mild);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  color: var(--text-weak);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s ease, font-weight 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.tag-pill:hover {
+  border-color: #282e3f;
+  box-shadow: 0 20px 44px -8px rgba(131, 94, 237, 0.4);
+  color: var(--text-accent);
+  font-weight: 600;
+  line-height: 26px;
+  animation: btn-press 0.35s ease forwards;
+}
+
+.tag-pill--selected {
+  background: var(--text-accent);
+  color: var(--bg-base);
+  font-weight: 600;
+  line-height: 26px;
+  border-color: transparent;
+}
+
+.tag-pill--selected:hover {
+  background: var(--text-accent);
+  color: var(--bg-base);
+  box-shadow: 0 20px 44px -8px rgba(0, 132, 255, 0.4);
+  border-color: transparent;
+}
 
 /* ═══════════════════════════════════════════════════════════════
    ABOUT PAGE

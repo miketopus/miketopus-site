@@ -8,6 +8,7 @@
   <script src="js/components/site-header.js" defer></script>
   <script src="js/components/work-card.js" defer></script>
   <script src="js/components/site-footer.js" defer></script>
+  <script src="js/work-filter.js" defer></script>
 </head>
 <body class="page-work">
 
@@ -28,11 +29,11 @@
 
   <!-- ─── Filters ──────────────────────────────────────────────── -->
   <div class="work-filters" role="group" aria-label="Filter by category">
-    <button class="filter-pill active">all</button>
-    <button class="filter-pill">illustration</button>
-    <button class="filter-pill">3D</button>
-    <button class="filter-pill">web</button>
-    <button class="filter-pill">freebie</button>
+    <button class="tag-pill tag-pill--selected" data-filter="all">all</button>
+    <button class="tag-pill" data-filter="illustration">illustration</button>
+    <button class="tag-pill" data-filter="3D">3D</button>
+    <button class="tag-pill" data-filter="web">web</button>
+    <button class="tag-pill" data-filter="freebie">freebie</button>
   </div>
 
   <!-- ─── Cards Grid 4×4 ──────────────────────────────────────── -->

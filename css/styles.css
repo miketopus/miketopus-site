@@ -1034,7 +1034,7 @@ button { cursor: pointer; border: none; background: none; }
   display: flex;
   align-items: center;
   gap: 0;
-  margin-bottom: 24px;
+  margin-bottom: -16px;
 }
 .about-parche {
   width: 208px;

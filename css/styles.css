@@ -570,9 +570,6 @@ button { cursor: pointer; border: none; background: none; }
 
 /* Bar Footer */
 .bar-footer {
-  position: relative;
-  z-index: 2;
-  margin-top: -96px;
   height: 96px;
   display: flex;
   align-items: center;
@@ -1070,40 +1067,38 @@ button { cursor: pointer; border: none; background: none; }
 
 /* Logo pills */
 .about-logos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 12px;
-  max-width: 559px;
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  gap: 12px;
 }
 
 .logo-pill {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 8px 24px 8px 8px;
   border-radius: var(--radius-pill);
   background: var(--bg-mild);
+  border: 1px solid transparent;
   font-family: var(--font-mono);
   font-size: 18px;
   font-weight: 600;
   line-height: 26px;
   color: var(--text-strong);
   white-space: nowrap;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease,
+              border-color 0.25s ease, padding-right 0.28s ease;
 }
 
 .logo-pill:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(131, 94, 237, 0.35);
-}
-
-.logo-pill:hover .logo-pill-ext {
-  opacity: 1;
-}
-
-.logo-pill--featured {
   background: var(--bg-weak);
-  border: 1px solid #282e3f;
+  border-color: #282e3f;
+  box-shadow: 0 12px 24px rgba(131, 94, 237, 0.35);
+  padding-right: 44px;
 }
 
 .logo-pill-img {
@@ -1115,11 +1110,20 @@ button { cursor: pointer; border: none; background: none; }
 }
 
 .logo-pill-ext {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 20px;
   height: 20px;
   opacity: 0;
-  flex-shrink: 0;
-  transition: opacity 0.22s ease;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.28s ease, opacity 0.12s ease 0.1s;
+}
+
+.logo-pill:hover .logo-pill-ext {
+  clip-path: inset(0 0% 0 0);
+  opacity: 1;
 }
 
 /* Divider at bottom of content */

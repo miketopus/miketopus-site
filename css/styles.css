@@ -268,10 +268,12 @@ button { cursor: pointer; border: none; background: none; }
 .hero-title h1 {
   font-family: var(--font-head);
   font-size: clamp(96px, 17.8vw, 256px);
-  line-height: 0.95;
+  line-height: 1;
   letter-spacing: -0.0625em;
   color: var(--text-strong);
   margin-bottom: 8px;
+  overflow: visible;
+  padding-bottom: 0.05em;
 }
 .hero-title p {
   font-weight: 300;

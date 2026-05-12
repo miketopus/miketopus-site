@@ -136,6 +136,7 @@ button { cursor: pointer; border: none; background: none; }
   user-select: none;
   white-space: nowrap;
   position: absolute;
+  z-index: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -299,6 +300,8 @@ button { cursor: pointer; border: none; background: none; }
 }
 
 .section-header {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;

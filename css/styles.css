@@ -266,25 +266,29 @@ button { cursor: pointer; border: none; background: none; }
 }
 
 .hero-title { position: relative; z-index: 1; }
-.hero-title h1 {
-  font-family: var(--font-head);
-  font-size: clamp(96px, 17.8vw, 256px);
-  line-height: 1;
-  letter-spacing: -0.0625em;
-  color: var(--text-strong);
-  margin-bottom: 8px;
-  overflow: visible;
-  padding-bottom: 0.05em;
+
+.hero-line-wrap {
+  overflow: hidden;
 }
-.hero-title p {
-  font-weight: 300;
-  font-size: 28px;
-  line-height: 32px;
-  letter-spacing: -0.04em;
-  color: rgba(255, 255, 255, 0.8);
-  mix-blend-mode: plus-lighter;
-  max-width: 680px;
-  margin-top: 16px;
+
+.hero-anim {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.hero-anim.is-visible {
+  transform: translateY(0);
+}
+
+[data-anim] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.75s cubic-bezier(0.76, 0, 0.24, 1),
+              transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+}
+[data-anim].is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ─── Work Section ───────────────────────────────────────────── */

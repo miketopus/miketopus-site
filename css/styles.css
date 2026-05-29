@@ -280,6 +280,27 @@ button { cursor: pointer; border: none; background: none; }
   transform: translateY(0);
 }
 
+.hero-title h1 {
+  font-family: var(--font-head);
+  font-size: 256px;
+  line-height: 1;
+  letter-spacing: -0.0625em;
+  color: var(--text-strong);
+  overflow: visible;
+  padding-bottom: 0.05em;
+}
+
+.hero-title p {
+  font-weight: 300;
+  font-size: 28px;
+  line-height: 32px;
+  letter-spacing: -0.04em;
+  color: rgba(255, 255, 255, 0.8);
+  mix-blend-mode: plus-lighter;
+  max-width: 820px;
+  margin-top: 16px;
+}
+
 [data-anim] {
   opacity: 0;
   transform: translateY(24px);

@@ -24,6 +24,6 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     initHero();
-    initScrollReveal();
+    setTimeout(initScrollReveal, 1300);
   });
 })();

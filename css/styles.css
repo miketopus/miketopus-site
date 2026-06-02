@@ -146,7 +146,8 @@ button { cursor: pointer; border: none; background: none; }
 /* ─── Hero ───────────────────────────────────────────────────── */
 .section-hero {
   position: relative;
-  padding: 122px 152px 130px;
+  padding: 122px 152px 48px;
+  overflow: hidden;
 }
 
 .hero-blobs {

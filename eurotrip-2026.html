@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eurotrip 2026 · Miguel & Co.</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+:root {
+  --bg:#0f0e0c; --bg2:#1a1916; --bg3:#242220;
+  --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.14);
+  --text:#f0ede8; --text2:#b8b4ae; --text3:#8a8680;
+  --accent:#e8c87a; --blue:#6b9fd4; --pink:#d47a8f;
+  --green:#7abf9e; --amber:#d4a55a; --red:#d47a7a; --purple:#9b8fd4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;font-size:17px;line-height:1.6;min-height:100vh}
+
+/* TODAY BANNER */
+#today-banner{
+  position:sticky;top:0;z-index:100;
+  background:#0f0e0c;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  padding:0;
+  display:none;
+}
+.today-inner{
+  max-width:760px;margin:0 auto;
+  display:flex;align-items:center;gap:12px;
+  padding:.75rem 2rem;
+}
+.today-pill{
+  background:var(--accent);color:#0f0e0c;
+  font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 10px;border-radius:99px;flex-shrink:0;
+}
+.today-event{flex:1}
+.today-title{font-size:15px;font-weight:500;color:var(--text)}
+.today-sub{font-size:13px;color:var(--text2)}
+.today-countdown{
+  font-size:13px;font-weight:500;
+  background:rgba(255,255,255,0.07);
+  padding:4px 12px;border-radius:99px;
+  color:var(--accent);white-space:nowrap;
+}
+.today-countdown.urgent{background:rgba(212,122,122,0.15);color:var(--red)}
+
+/* HERO */
+.hero{padding:3rem 2rem 2rem;max-width:760px;margin:0 auto;border-bottom:.5px solid var(--border)}
+.hero-eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(34px,6vw,54px);line-height:1.1;margin-bottom:.4rem}
+.hero-title em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:15px;color:var(--text2);margin-bottom:1.5rem}
+.prog-bar{display:flex;gap:3px;height:4px;border-radius:99px;overflow:hidden;margin-bottom:7px}
+.prog-seg{height:100%;border-radius:99px}
+.prog-labels{display:flex;gap:14px}
+.prog-label{font-size:12px;font-weight:500}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:.5px solid var(--border);border-radius:12px;overflow:hidden;margin-top:1.75rem}
+.stat{background:var(--bg2);padding:.875rem 1.125rem}
+.stat-l{font-size:12px;color:var(--text3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.stat-v{font-size:24px;font-weight:300;color:var(--text)}
+.stat-v span{font-size:14px;color:var(--accent);margin-left:3px}
+
+/* MAIN */
+.main{max-width:760px;margin:0 auto;padding:1.75rem 2rem}
+
+/* CHEAT SHEET */
+.cheatsheet{
+  background:var(--bg2);border:.5px solid rgba(232,200,122,0.25);
+  border-radius:12px;padding:1.125rem 1.25rem;margin-bottom:1.5rem;
+}
+.cs-title{
+  font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;
+  color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:6px;
+}
+.cs-row{
+  display:flex;align-items:center;gap:10px;
+  padding:6px 0;border-bottom:.5px solid rgba(255,255,255,0.05);
+  font-size:14px;
+}
+.cs-row:last-child{border-bottom:none;padding-bottom:0}
+.cs-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
+.cs-dot.pend{background:var(--text3)}
+.cs-name{flex:1;color:var(--text);font-weight:500}
+.cs-date{color:var(--text2);font-size:13px;white-space:nowrap;min-width:80px}
+.cs-time{color:var(--accent);font-size:14px;font-weight:600;white-space:nowrap;min-width:65px;text-align:right}
+.cs-code{font-size:11px;color:var(--text3);font-family:monospace;margin-top:1px}
+
+/* FLIGHT */
+.flight{display:flex;align-items:flex-start;gap:1rem;background:var(--bg2);border:.5px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-bottom:.75rem}
+.flight-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.flight-body{flex:1}
+.flight-route{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:500}
+.flight-dash{flex:1;height:1px;background:var(--border2);position:relative}
+.flight-dash::after{content:'▸';position:absolute;right:-5px;top:-8px;font-size:10px;color:var(--text3)}
+.flight-meta{font-size:14px;color:var(--text2);margin-top:2px}
+.flight-warn{font-size:13px;color:var(--red);margin-top:6px;padding:4px 10px;background:rgba(212,122,122,0.1);border:.5px solid rgba(212,122,122,0.2);border-radius:6px;display:inline-block}
+
+/* CONNECTOR */
+.connector{display:flex;align-items:center;gap:10px;padding:5px 0;margin:2px 0}
+.conn-city{font-size:13px;color:var(--text3);white-space:nowrap}
+.conn-line{flex:1;border-top:1px dashed rgba(255,255,255,0.09)}
+.conn-badge{font-size:13px;color:var(--text2);background:var(--bg2);border:.5px solid var(--border);padding:3px 11px;border-radius:99px;white-space:nowrap}
+
+/* CITY CARD */
+.city{border:.5px solid rgba(255,255,255,0.12);border-radius:16px;overflow:hidden;margin-bottom:10px;transition:box-shadow .25s, border-color .25s, transform .2s;box-shadow:0 4px 24px rgba(0,0,0,0.45),0 1px 3px rgba(0,0,0,0.3);background:var(--bg2)}
+.city.active-city{border-color:rgba(232,200,122,0.5);box-shadow:0 6px 32px rgba(232,200,122,0.1),0 2px 8px rgba(0,0,0,0.4)}
+.city:hover{border-color:rgba(255,255,255,0.2);box-shadow:0 8px 36px rgba(0,0,0,0.55),0 2px 6px rgba(0,0,0,0.35);transform:translateY(-1px)}
+.city-head{display:flex;align-items:center;gap:12px;padding:1.125rem 1.375rem;cursor:pointer;background:var(--bg2);user-select:none;transition:background .15s;min-height:70px}
+.city-head:hover{background:var(--bg3)}
+.city-flag{font-size:26px;width:36px;text-align:center;flex-shrink:0}
+.city-info{flex:1}
+.city-name{font-family:'DM Serif Display',serif;font-size:21px;color:var(--text)}
+.city-dates{font-size:13px;color:var(--text3);margin-top:1px}
+.city-badge{font-size:12px;padding:3px 10px;border-radius:99px;border:.5px solid;white-space:nowrap}
+.city-status{font-size:11px;font-weight:600;letter-spacing:.5px;padding:3px 9px;border-radius:99px;white-space:nowrap;flex-shrink:0}
+.status-today{background:rgba(232,200,122,0.15);color:var(--accent);border:.5px solid rgba(232,200,122,0.3)}
+.status-past{background:rgba(255,255,255,0.04);color:var(--text3);border:.5px solid var(--border)}
+.status-next{background:rgba(107,159,212,0.1);color:var(--blue);border:.5px solid rgba(107,159,212,0.25)}
+.city-chevron{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:.5px solid rgba(255,255,255,0.12);box-shadow:0 2px 8px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text2);transition:transform .25s, background .15s, box-shadow .15s;flex-shrink:0;margin-left:8px}
+.city-head:hover .city-chevron{background:#2e2c29;box-shadow:0 3px 12px rgba(0,0,0,0.5)}
+.city-chevron.open{transform:rotate(180deg)}
+.city-body{display:none;background:var(--bg)}
+.city-body.open{display:block}
+
+/* ADDRESS ROW */
+.address-row{display:flex;align-items:center;gap:8px;padding:5px 0;margin-top:4px}
+.addr-pin{font-size:13px}
+.addr-text{font-size:13px;color:var(--text2)}
+
+/* SECTION */
+.section{padding:.875rem 1.25rem;border-top:.5px solid var(--border)}
+.sec-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:10px}
+
+/* EVENT */
+.event{display:flex;gap:10px;padding:9px 0;border-bottom:.5px solid rgba(255,255,255,0.04)}
+.event:last-child{border-bottom:none;padding-bottom:0}
+.ev-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px;margin-top:1px}
+.ev-main{flex:1}
+.ev-title{font-size:18px;font-weight:500;color:var(--text)}
+.ev-time{font-size:14px;color:var(--text2);margin-top:2px}
+.ev-detail{font-size:13px;color:var(--text3);margin-top:2px;line-height:1.5}
+.ev-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tag{font-size:12px;padding:3px 9px;border-radius:99px;border:.5px solid}
+.tag-ok{color:var(--green);border-color:rgba(122,191,158,0.3);background:rgba(122,191,158,0.07)}
+.tag-pend{color:var(--text2);border-color:var(--border);background:transparent}
+
+/* WARN */
+.warn{font-size:13px;padding:5px 10px;border-radius:6px;margin-top:5px;display:block;line-height:1.5}
+.warn+.warn{margin-top:4px}
+.warn-amber{background:rgba(212,165,90,0.1);color:#e8c87a;border:.5px solid rgba(212,165,90,0.25)}
+.warn-red{background:rgba(212,122,122,0.12);color:#e89090;border:.5px solid rgba(212,122,122,0.3)}
+
+/* INNER CONNECTOR */
+.inner-conn{display:flex;align-items:center;gap:8px;padding:5px 0;margin:3px 0}
+.inner-conn-line{flex:1;border-top:1px dashed rgba(255,255,255,0.07)}
+.inner-conn-badge{font-size:13px;color:var(--text3);background:var(--bg2);padding:2px 9px;border-radius:99px;white-space:nowrap}
+
+/* LINK */
+a.res-link{display:inline-flex;align-items:center;gap:3px;font-size:13px;color:var(--blue);text-decoration:none;margin-top:4px}
+a.res-link:hover{text-decoration:underline}
+
+/* FOOTER */
+.footer{max-width:760px;margin:2rem auto 0;padding:1.25rem 2rem;border-top:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.footer-left{font-size:13px;color:var(--text3)}
+.footer-left strong{color:var(--accent);font-weight:500}
+
+@media(max-width:520px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .hero,.main{padding-left:1.25rem;padding-right:1.25rem}
+  .footer{flex-direction:column;gap:6px}
+  .city-badge{display:none}
+  .today-inner{padding:.75rem 1.25rem}
+  .cs-code{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- TODAY BANNER (populated by JS) -->
+<div id="today-banner">
+  <div class="today-inner">
+    <span class="today-pill">Hoy</span>
+    <div class="today-event">
+      <div class="today-title" id="tb-title">—</div>
+      <div class="today-sub" id="tb-sub">—</div>
+    </div>
+    <div class="today-countdown" id="tb-countdown">—</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">✦ Jun 7 — Jul 1, 2026</div>
+  <h1 class="hero-title">Euro<em>trip</em></h1>
+  <p class="hero-sub">Miguel · Yanaly · José · Katherin</p>
+  <div class="prog-bar">
+    <div class="prog-seg" style="width:13%;background:#6b9fd4"></div>
+    <div class="prog-seg" style="width:22%;background:#d47a8f"></div>
+    <div class="prog-seg" style="width:10%;background:#7abf9e"></div>
+    <div class="prog-seg" style="width:9%;background:#d4a55a"></div>
+    <div class="prog-seg" style="width:15%;background:#d47a7a"></div>
+    <div class="prog-seg" style="flex:1;background:#9b8fd4"></div>
+  </div>
+  <div class="prog-labels">
+    <span class="prog-label" style="color:#6b9fd4">Madrid</span>
+    <span class="prog-label" style="color:#d47a8f">París</span>
+    <span class="prog-label" style="color:#7abf9e">Milán</span>
+    <span class="prog-label" style="color:#d4a55a">Florencia</span>
+    <span class="prog-label" style="color:#d47a7a">Roma</span>
+    <span class="prog-label" style="color:#9b8fd4">Barcelona</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-l">Duración</div><div class="stat-v">24 <span>noches</span></div></div>
+    <div class="stat"><div class="stat-l">Ciudades</div><div class="stat-v">6</div></div>
+    <div class="stat"><div class="stat-l">Entradas</div><div class="stat-v">5 <span>✓</span></div></div>
+    <div class="stat"><div class="stat-l">Viajeros</div><div class="stat-v">4</div></div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════
+     CHEAT SHEET — siempre visible, sin expandir
+═══════════════════════════════════════ -->
+<div class="cheatsheet">
+  <div class="cs-title">⚡ Cheat Sheet — Entradas &amp; Reservas</div>
+  <div class="cs-row">
+    <div class="cs-dot"></div>
+    <div style="flex:1">
+      <div class="cs-name">Louvre · París</div>
+      <div class="cs-code">N° C260750000696 · Acceso Carrusel/Pirámide · llevar ID</div>
+    </div>
+    <div class="cs-date">Vie 12 jun</div>
+    <div class="cs-time">9:00 AM</div>
+  </div>
+  <div class="cs-row">
+    <div class="cs-dot"></div>
+    <div style="flex:1">
+      <div class="cs-name">Versalles · Puerta A, Pabellón Dufour</div>
+      <div class="cs-code">N° 196045971 · RER C → Versailles Rive Gauche</div>
+    </div>
+    <div class="cs-date">Sáb 13 jun</div>
+    <div class="cs-time">10:00 AM</div>
+  </div>
+  <div class="cs-row">
+    <div class="cs-dot"></div>
+    <div style="flex:1">
+      <div class="cs-name">Disneyland París · 2 Parques</div>
+      <div class="cs-code">N° 33970396 · RER A → Marne-la-Vallée/Chessy</div>
+    </div>
+    <div class="cs-date">Lun 15 jun</div>
+    <div class="cs-time">Todo el día</div>
+  </div>
+  <div class="cs-row">
+    <div class="cs-dot"></div>
+    <div style="flex:1">
+      <div class="cs-name">Galleria dell'Accademia · Via Ricasoli 58/60</div>
+      <div class="cs-code">N° 22715892 · ticket impreso o móvil + ID</div>
+    </div>
+    <div class="cs-date">Vie 20 jun</div>
+    <div class="cs-time">15:00</div>
+  </div>
+  <div class="cs-row">
+    <div class="cs-dot"></div>
+    <div style="flex:1">
+      <div class="cs-name">Musei Vaticani · Corridoio 1, Viale Vaticano</div>
+      <div class="cs-code">Código: 2L2NFHNU0000001ZV · Metro Ottaviano · validar en torniquete</div>
+    </div>
+    <div class="cs-date">Mié 24 jun</div>
+    <div class="cs-time">15:30</div>
+  </div>
+  <div class="cs-row">
+    <div class="cs-dot pend"></div>
+    <div style="flex:1">
+      <div class="cs-name" style="color:var(--text2)">Coliseo + Foro Romano · por reservar</div>
+      <div class="cs-code">colosseo.it · ~18€/persona</div>
+    </div>
+    <div class="cs-date" style="color:var(--text3)">Roma</div>
+    <div class="cs-time" style="color:var(--text3)">—</div>
+  </div>
+</div>
+
+<!-- VUELO SALIDA -->
+<div class="flight">
+  <div class="flight-icon">🛫</div>
+  <div class="flight-body">
+    <div class="flight-route"><span>BOG</span><div class="flight-dash"></div><span>MAD</span></div>
+    <div class="flight-meta">LATAM · Sáb 7 jun · Salida 21:45h · Llega Madrid lun 8 jun (~13:00h)</div>
+  </div>
+</div>
+
+<!-- ═══ MADRID ═══ -->
+<div class="city" id="city-madrid" data-from="2026-06-08" data-to="2026-06-11">
+  <div class="city-head" onclick="tog(this)">
+    <span class="city-flag">🇪🇸</span>
+    <div class="city-info">
+      <div class="city-name">Madrid</div>
+      <div class="city-dates">Lun 8 — Jue 11 jun · 3 noches</div>
+    </div>
+    <span class="city-badge" style="color:#6b9fd4;border-color:rgba(107,159,212,0.3)">Airbnb · Irene</span>
+    <span class="city-status" id="st-madrid"></span>
+    <div class="city-chevron">▾</div>
+  </div>
+  <div class="city-body">
+    <div class="section">
+      <div class="sec-label">Alojamiento</div>
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(107,159,212,0.1);color:#6b9fd4">🏠</div>
+        <div class="ev-main">
+          <div class="ev-title">Airbnb Madrid · Irene</div>
+          <div class="ev-time">Check-in: Lun 8 jun 3:00 PM &nbsp;·&nbsp; Check-out: Jue 11 jun 12:00 PM</div>
+          <div class="ev-tags"><span class="tag tag-ok">✓ Confirmado</span></div>
+          <a class="res-link" href="https://www.airbnb.com.co/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HME3A5F89F" target="_blank">↗ Ver reserva Airbnb</a>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-label">Actividades</div>
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(122,191,158,0.1);color:#7abf9e">🏛</div>
+        <div class="ev-main">
+          <div class="ev-title">Museo Nacional del Prado</div>
+          <div class="ev-time">Mar 9 jun</div>
+          <div class="ev-detail">Horario: 10:00–20:00 · Paseo del Prado s/n · desde 15€</div>
+          <div class="ev-tags"><span class="tag tag-pend">Entrada pendiente</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="connector">
+  <span class="conn-city">Madrid → París</span>
+  <div class="conn-line"></div>
+  <span class="conn-badge">✈ Vuelo ~2h &nbsp;·&nbsp; o tren ~10h</span>
+</div>
+
+<!-- ═══ PARIS ═══ -->
+<div class="city" id="city-paris" data-from="2026-06-11" data-to="2026-06-17">
+  <div class="city-head" onclick="tog(this)">
+    <span class="city-flag">🇫🇷</span>
+    <div class="city-info">
+      <div class="city-name">París</div>
+      <div class="city-dates">Jue 11 — Mar 16 jun · 5 noches</div>
+    </div>
+    <span class="city-badge" style="color:#d47a8f;border-color:rgba(212,122,143,0.3)">Airbnb · Julien</span>
+    <span class="city-status" id="st-paris"></span>
+    <div class="city-chevron">▾</div>
+  </div>
+  <div class="city-body">
+    <div class="section">
+      <div class="sec-label">Alojamiento</div>
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(212,122,143,0.1);color:#d47a8f">🏠</div>
+        <div class="ev-main">
+          <div class="ev-title">Airbnb París · Julien</div>
+          <div class="ev-time">Check-in: Jue 11 jun &nbsp;·&nbsp; Check-out: Mar 16 jun 10:00 AM</div>
+          <div class="ev-tags"><span class="tag tag-ok">✓ Confirmado</span></div>
+          <a class="res-link" href="https://www.airbnb.com.co/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMD8DDXMXZ" target="_blank">↗ Ver reserva Airbnb</a>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-label">Actividades</div>
+
+      <!-- LOUVRE -->
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(122,191,158,0.1);color:#7abf9e">🖼</div>
+        <div class="ev-main">
+          <div class="ev-title">Museo del Louvre</div>
+          <div class="ev-time">Vie 12 jun · Entrada: 9:00 AM</div>
+          <div class="ev-detail">Horario: 9:00–18:00 · Acceso por Carrusel o Pirámide · 32€/persona</div>
+          <div class="ev-detail">Miguel Avila · Yanaly Bravo · José Sanmiguel · Katherin Cubides</div>
+          <div class="ev-detail">N° orden: C260750000696</div>
+          <div class="ev-tags"><span class="tag tag-ok">✓ Entrada confirmada · 4 personas</span></div>
+          <div class="warn warn-amber">⚠ Desalojo 30 min antes del cierre. Llevar ID. Entrada nominativa.</div>
+        </div>
+      </div>
+
+      <div class="inner-conn">
+        <span style="font-size:13px;color:var(--text3)">Louvre → Versalles</span>
+        <div class="inner-conn-line"></div>
+        <span class="inner-conn-badge">RER C · ~40 min · Bajada: Versailles Rive Gauche</span>
+      </div>
+
+      <!-- VERSALLES -->
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(212,165,90,0.1);color:#d4a55a">🏰</div>
+        <div class="ev-main">
+          <div class="ev-title">Palacio de Versalles</div>
+          <div class="ev-time">Sáb 13 jun · Entrada: 10:00 AM — Puerta A, Pabellón Dufour</div>
+          <div class="ev-detail">Billet Passeport · 35€/persona · Château + Jardines + Trianon</div>
+          <div class="ev-detail">Château 9:00 · Jardines 8:00 · Trianon 12:00 · N° 196045971</div>
+          <div class="ev-detail">Miguel Avila · Yanaly Bravo · José Sanmiguel · Katherin Cubides</div>
+          <div class="ev-tags"><span class="tag tag-ok">✓ Entrada confirmada · 4 personas</span></div>
+          <div class="warn warn-red">🚨 Solo 30 min de margen desde las 10:00. Retraso +1h = acceso denegado.</div>
+          <div class="warn warn-amber">🚆 RER C → Versailles Château Rive Gauche · ~40 min desde París</div>
+        </div>
+      </div>
+
+      <!-- ORSAY -->
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(107,159,212,0.1);color:#6b9fd4">🎨</div>
+        <div class="ev-main">
+          <div class="ev-title">Museo d'Orsay</div>
+          <div class="ev-time">Dom 14 jun</div>
+          <div class="ev-detail">Horario: 9:30–18:00 · 1 Rue de la Légion d'Honneur · ~1.5 km del Louvre a pie</div>
+          <div class="ev-tags"><span class="tag tag-pend">Opcional · sin entrada</span></div>
+        </div>
+      </div>
+
+      <!-- DISNEY -->
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(212,122,143,0.1);color:#d47a8f">🎢</div>
+        <div class="ev-main">
+          <div class="ev-title">Disneyland París · 2 Parques</div>
+          <div class="ev-time">Lun 15 jun · Todo el día</div>
+          <div class="ev-detail">111€/persona · 1 día / 2 parques · N° reserva: 33970396</div>
+          <div class="ev-detail">Miguel Avila · Yanaly Bravo · José Sanmiguel · Katherin Cubides</div>
+          <div class="ev-detail">Presentar QR + documento de identidad en cada parque</div>
+          <div class="ev-tags"><span class="tag tag-ok">✓ Entrada confirmada · 4 personas</span></div>
+          <div class="warn warn-amber">🚆 RER A → Marne-la-Vallée/Chessy · ~45 min desde París centro</div>
+        </div>
+      </div>
+
+      <!-- DÍA LIBRE -->
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(255,255,255,0.04);color:var(--text3)">🎒</div>
+        <div class="ev-main">
+          <div class="ev-title">Día libre — parchar y alistarse para Milán</div>
+          <div class="ev-time">Mar 16 jun</div>
+          <div class="ev-detail">Check-out Airbnb 10:00 AM · Preparar equipaje · Salida a Milán</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="connector">
+  <span class="conn-city">París → Milán</span>
+  <div class="conn-line"></div>
+  <span class="conn-badge">🚄 TGV ~7h &nbsp;·&nbsp; o vuelo ~1h45</span>
+</div>
+
+<!-- ═══ MILAN ═══ -->
+<div class="city" id="city-milan" data-from="2026-06-17" data-to="2026-06-20">
+  <div class="city-head" onclick="tog(this)">
+    <span class="city-flag">🇮🇹</span>
+    <div class="city-info">
+      <div class="city-name">Milán</div>
+      <div class="city-dates">Mié 17 — Sáb 20 jun · 3 noches</div>
+    </div>
+    <span class="city-badge" style="color:#7abf9e;border-color:rgba(122,191,158,0.3)">Airbnb · Sonia</span>
+    <span class="city-status" id="st-milan"></span>
+    <div class="city-chevron">▾</div>
+  </div>
+  <div class="city-body">
+    <div class="section">
+      <div class="sec-label">Alojamiento</div>
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(122,191,158,0.1);color:#7abf9e">🏠</div>
+        <div class="ev-main">
+          <div class="ev-title">Airbnb Milán · Sonia</div>
+          <div class="ev-time">Check-in: Mié 17 jun &nbsp;·&nbsp; Check-out: Sáb 20 jun</div>
+          <div class="ev-tags"><span class="tag tag-ok">✓ Confirmado</span></div>
+          <a class="res-link" href="https://www.airbnb.com.co/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMSMC5F4DD" target="_blank">↗ Ver reserva Airbnb</a>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-label">Actividades</div>
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(122,191,158,0.1);color:#7abf9e">⛪</div>
+        <div class="ev-main">
+          <div class="ev-title">Duomo di Milano</div>
+          <div class="ev-time">Jue 18 jun</div>
+          <div class="ev-detail">Horario: 9:00–19:00 · Piazza del Duomo · centro de Milán</div>
+          <div class="ev-tags"><span class="tag tag-pend">Entrada pendiente</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="connector">
+  <span class="conn-city">Milán → Florencia</span>
+  <div class="conn-line"></div>
+  <span class="conn-badge">🚄 Frecciarossa ~1h45 · 298 km</span>
+</div>
+
+<!-- ═══ FLORENCIA ═══ -->
+<div class="city" id="city-florencia" data-from="2026-06-19" data-to="2026-06-21">
+  <div class="city-head" onclick="tog(this)">
+    <span class="city-flag">🌸</span>
+    <div class="city-info">
+      <div class="city-name">Florencia</div>
+      <div class="city-dates">Vie 19 — Dom 21 jun · 2 noches</div>
+    </div>
+    <span class="city-badge" style="color:#d4a55a;border-color:rgba(212,165,90,0.3)">Airbnb · Condo</span>
+    <span class="city-status" id="st-florencia"></span>
+    <div class="city-chevron">▾</div>
+  </div>
+  <div class="city-body">
+    <div class="section">
+      <div class="sec-label">Alojamiento</div>
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(212,165,90,0.1);color:#d4a55a">🏠</div>
+        <div class="ev-main">
+          <div class="ev-title">Airbnb Florencia — Condo</div>
+          <div class="ev-time">Check-in: Vie 19 jun 10:00 PM &nbsp;·&nbsp; Check-out: Dom 21 jun 10:00 AM</div>
+          <div class="ev-detail">Salida hacia Firenze S.M.N. el dom 21 jun a las 6:03 PM</div>
+          <div class="ev-tags"><span class="tag tag-ok">✓ Confirmado</span></div>
+          <a class="res-link" href="https://www.airbnb.com.co/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMA59AFPJM" target="_blank">↗ Ver reserva Airbnb</a>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-label">Actividades</div>
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(212,165,90,0.1);color:#d4a55a">🗿</div>
+        <div class="ev-main">
+          <div class="ev-title">Galleria dell'Accademia — El David</div>
+          <div class="ev-time">Sáb 20 jun · Entrada: 15:00 – 15:15</div>
+          <div class="ev-detail">Via Ricasoli 58/60 · 24€/persona · Audioguía 6€ (devolver antes 18:40)</div>
+          <div class="ev-detail">Miguel Angel Avila · Yanaly K. Bravo · Jose Y. Sanmiguel · Estefan K. Cubides</div>
+          <div class="ev-detail">N° orden: 22715892 · ticket impreso o móvil + ID</div>
+          <div class="ev-tags"><span class="tag tag-ok">✓ Entrada confirmada · 4 personas</span></div>
+          <div class="warn warn-amber">⚠ Sin guardarropa. Bolsos pequeños. Solo botellas ≤0.5L. Detector de metales.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="connector">
+  <span class="conn-city">Florencia → Roma (desde Firenze S.M.N.)</span>
+  <div class="conn-line"></div>
+  <span class="conn-badge">🚄 Frecciarossa ~1h30 · 277 km</span>
+</div>
+
+<!-- ═══ ROMA ═══ -->
+<div class="city" id="city-roma" data-from="2026-06-21" data-to="2026-06-25">
+  <div class="city-head" onclick="tog(this)">
+    <span class="city-flag">🏛</span>
+    <div class="city-info">
+      <div class="city-name">Roma</div>
+      <div class="city-dates">Dom 21 — Jue 25 jun · 4 noches</div>
+    </div>
+    <span class="city-badge" style="color:#d47a7a;border-color:rgba(212,122,122,0.3)">Airbnb</span>
+    <span class="city-status" id="st-roma"></span>
+    <div class="city-chevron">▾</div>
+  </div>
+  <div class="city-body">
+    <div class="section">
+      <div class="sec-label">Alojamiento</div>
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(212,122,122,0.1);color:#d47a7a">🏠</div>
+        <div class="ev-main">
+          <div class="ev-title">Airbnb Roma</div>
+          <div class="ev-time">Check-in: Dom 21 jun 9:00 AM &nbsp;·&nbsp; Check-out: Jue 25 jun 10:00 AM</div>
+          <div class="ev-tags"><span class="tag tag-ok">✓ Confirmado</span></div>
+          <a class="res-link" href="https://www.airbnb.com.co/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMQJRW5B4R" target="_blank">↗ Ver reserva Airbnb</a>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-label">Actividades</div>
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(212,122,122,0.1);color:#d47a7a">⛩</div>
+        <div class="ev-main">
+          <div class="ev-title">Musei Vaticani + Capilla Sixtina</div>
+          <div class="ev-time">Mié 24 jun · Entrada: 15:30 — Corridoio 1 / Passageway 1</div>
+          <div class="ev-detail">Viale Vaticano, Roma · 25€/persona · N° visita: 8943/2026-71</div>
+          <div class="ev-detail">Miguel Angel Avila · Jose Y. Sanmiguel · Katherin E. Cubides · Yanaly K. Bravo</div>
+          <div class="ev-detail">Código: 2L2NFHNU0000001ZV · Presentar QR + ID · Metro: Ottaviano</div>
+          <div class="ev-tags"><span class="tag tag-ok">✓ Entrada confirmada · 4 personas</span></div>
+          <div class="warn warn-red">🚨 Ticket NO reembolsable. Válido SOLO el 24 jun a las 15:30.</div>
+          <div class="warn warn-amber">⚠ Mostrar ticket al personal FUERA del museo → luego validar en torniquete 1er piso.</div>
+          <div class="warn warn-amber">📍 Entrada por Viale Vaticano — fila derecha (con reserva).</div>
+        </div>
+      </div>
+
+      <div class="inner-conn">
+        <span style="font-size:13px;color:var(--text3)">Vaticano → Coliseo</span>
+        <div class="inner-conn-line"></div>
+        <span class="inner-conn-badge">Metro/bus ~30 min · 4.5 km</span>
+      </div>
+
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(255,255,255,0.04);color:var(--text3)">🏟</div>
+        <div class="ev-main">
+          <div class="ev-title">Coliseo + Foro Romano</div>
+          <div class="ev-time">Resto de días en Roma</div>
+          <div class="ev-detail">Reservar online en colosseo.it · ~18€/persona · Piazza del Colosseo</div>
+          <div class="ev-tags"><span class="tag tag-pend">Entrada pendiente</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="connector">
+  <span class="conn-city">Roma → Barcelona</span>
+  <div class="conn-line"></div>
+  <span class="conn-badge">✈ Vuelo ~2h · 1360 km</span>
+</div>
+
+<!-- ═══ BARCELONA ═══ -->
+<div class="city" id="city-barcelona" data-from="2026-06-25" data-to="2026-07-01">
+  <div class="city-head" onclick="tog(this)">
+    <span class="city-flag">🇪🇸</span>
+    <div class="city-info">
+      <div class="city-name">Barcelona</div>
+      <div class="city-dates">Jue 25 jun — Mié 1 jul · 6 noches</div>
+    </div>
+    <span class="city-badge" style="color:#9b8fd4;border-color:rgba(155,143,212,0.3)">Casa Camilo</span>
+    <span class="city-status" id="st-barcelona"></span>
+    <div class="city-chevron">▾</div>
+  </div>
+  <div class="city-body">
+    <div class="section">
+      <div class="sec-label">Alojamiento</div>
+      <div class="event">
+        <div class="ev-icon" style="background:rgba(155,143,212,0.1);color:#9b8fd4">🫂</div>
+        <div class="ev-main">
+          <div class="ev-title">Casa del amigo Camilo</div>
+          <div class="ev-time">Llegada: Jue 25 jun &nbsp;·&nbsp; Salida: Mié 1 jul</div>
+          <div class="ev-detail">📍 Passatge Prim, Barcelona</div>
+          <div class="ev-tags"><span class="tag" style="color:#9b8fd4;border-color:rgba(155,143,212,0.3)">Casa de amigo</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="connector">
+  <span class="conn-city">Barcelona → Madrid (aeropuerto)</span>
+  <div class="conn-line"></div>
+  <span class="conn-badge">🚄 AVE ~2h30 · o vuelo ~1h15</span>
+</div>
+
+<!-- VUELO REGRESO -->
+<div class="flight">
+  <div class="flight-icon">🛬</div>
+  <div class="flight-body">
+    <div class="flight-route"><span>MAD</span><div class="flight-dash"></div><span>BOG</span></div>
+    <div class="flight-meta">LATAM · Mié 1 jul · Salida Madrid 16:25h · Llegada Bogotá ~22:00h</div>
+    <div class="flight-warn">🚨 Vuelo desde Madrid — coordinar traslado BCN → MAD ese mismo día. Salir temprano.</div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<div class="footer">
+  <div class="footer-left">Eurotrip 2026 · <strong>4 viajeros</strong> · Jun 7 – Jul 1</div>
+  <div style="font-size:13px;color:var(--text3)">geeklangel@gmail.com</div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────
+const CITIES = [
+  { id:'city-madrid',    st:'st-madrid',    from:'2026-06-08', to:'2026-06-11' },
+  { id:'city-paris',     st:'st-paris',     from:'2026-06-11', to:'2026-06-17' },
+  { id:'city-milan',     st:'st-milan',     from:'2026-06-17', to:'2026-06-20' },
+  { id:'city-florencia', st:'st-florencia', from:'2026-06-19', to:'2026-06-21' },
+  { id:'city-roma',      st:'st-roma',      from:'2026-06-21', to:'2026-06-25' },
+  { id:'city-barcelona', st:'st-barcelona', from:'2026-06-25', to:'2026-07-01' },
+];
+
+const EVENTS = [
+  { date:'2026-06-12', time:'09:00', title:'Louvre',              sub:'Entrada 9:00 AM · Pirámide · N° C260750000696' },
+  { date:'2026-06-13', time:'10:00', title:'Versalles',           sub:'Entrada 10:00 AM · Puerta A · N° 196045971 — ¡sin retraso!' },
+  { date:'2026-06-15', time:'09:00', title:'Disneyland París',    sub:'2 Parques · N° 33970396 · presentar QR + ID' },
+  { date:'2026-06-20', time:'15:00', title:"Galleria dell'Accademia", sub:'Entrada 15:00 · Via Ricasoli 58/60 · N° 22715892' },
+  { date:'2026-06-24', time:'15:30', title:'Musei Vaticani',      sub:'Entrada 15:30 · Corridoio 1 · Viale Vaticano · validar torniquete' },
+];
+
+// ─── TOGGLE ─────────────────────────────────────────────
+function tog(h) {
+  const b = h.nextElementSibling;
+  const c = h.querySelector('.city-chevron');
+  const isOpen = b.classList.contains('open');
+  b.classList.toggle('open', !isOpen);
+  c.classList.toggle('open', !isOpen);
+}
+
+// ─── DATE HELPERS ────────────────────────────────────────
+function today() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function formatCountdown(eventDate, eventTime) {
+  const now = new Date();
+  const target = new Date(`${eventDate}T${eventTime}:00`);
+  const diff = target - now;
+  if (diff < 0) return null;
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  if (h > 48) {
+    const days = Math.floor(h / 24);
+    return `en ${days} días`;
+  }
+  if (h >= 1) return `en ${h}h ${m}m`;
+  return `en ${m} min`;
+}
+
+// ─── INIT ────────────────────────────────────────────────
+function init() {
+  const t = today();
+
+  // City status badges + auto-expand active city
+  let activeCityId = null;
+  CITIES.forEach(c => {
+    const el = document.getElementById(c.id);
+    const st = document.getElementById(c.st);
+    if (!el || !st) return;
+    if (t >= c.from && t < c.to) {
+      st.textContent = 'AQUÍ AHORA';
+      st.className = 'city-status status-today';
+      el.classList.add('active-city');
+      activeCityId = c.id;
+    } else if (t >= c.to) {
+      st.textContent = 'VISITADO';
+      st.className = 'city-status status-past';
+    } else if (!activeCityId) {
+      // first future city
+      st.textContent = 'PRÓXIMA';
+      st.className = 'city-status status-next';
+      if (!activeCityId) activeCityId = c.id; // mark first upcoming
+    }
+  });
+
+  // Auto-expand: active city or first upcoming
+  if (activeCityId) {
+    const cityEl = document.getElementById(activeCityId);
+    if (cityEl) {
+      const head = cityEl.querySelector('.city-head');
+      const body = cityEl.querySelector('.city-body');
+      const chev = cityEl.querySelector('.city-chevron');
+      if (body) body.classList.add('open');
+      if (chev) chev.classList.add('open');
+    }
+  }
+
+  // Today banner
+  const banner = document.getElementById('today-banner');
+  const tbTitle = document.getElementById('tb-title');
+  const tbSub = document.getElementById('tb-sub');
+  const tbCountdown = document.getElementById('tb-countdown');
+
+  // Find today's most relevant event
+  const todayEvents = EVENTS.filter(e => e.date === t);
+  const upcomingToday = todayEvents[0];
+
+  // Check if we're in trip range
+  const tripStart = '2026-06-07';
+  const tripEnd   = '2026-07-01';
+
+  if (t >= tripStart && t <= tripEnd) {
+    banner.style.display = 'block';
+
+    if (upcomingToday) {
+      const countdown = formatCountdown(upcomingToday.date, upcomingToday.time);
+      tbTitle.textContent = upcomingToday.title;
+      tbSub.textContent = upcomingToday.sub;
+      if (countdown) {
+        tbCountdown.textContent = countdown;
+        // urgent if under 2 hours
+        const diff = new Date(`${upcomingToday.date}T${upcomingToday.time}:00`) - new Date();
+        tbCountdown.className = diff < 7200000 ? 'today-countdown urgent' : 'today-countdown';
+      } else {
+        tbCountdown.textContent = 'Ya pasó';
+        tbCountdown.className = 'today-countdown';
+      }
+    } else {
+      // In trip, no specific event today — show city
+      const activeCity = CITIES.find(c => t >= c.from && t < c.to);
+      if (activeCity) {
+        const cityEl = document.getElementById(activeCity.id);
+        const cityName = cityEl ? cityEl.querySelector('.city-name').textContent : '';
+        tbTitle.textContent = `Día libre en ${cityName}`;
+        tbSub.textContent = 'Sin entradas programadas hoy';
+        tbCountdown.textContent = '🗺 Explorar';
+        tbCountdown.className = 'today-countdown';
+      }
+    }
+  }
+
+  // Live countdown update every minute
+  if (upcomingToday) {
+    setInterval(() => {
+      const cd = formatCountdown(upcomingToday.date, upcomingToday.time);
+      if (cd) {
+        tbCountdown.textContent = cd;
+        const diff = new Date(`${upcomingToday.date}T${upcomingToday.time}:00`) - new Date();
+        tbCountdown.className = diff < 7200000 ? 'today-countdown urgent' : 'today-countdown';
+      }
+    }, 60000);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

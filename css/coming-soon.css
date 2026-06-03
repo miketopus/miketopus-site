@@ -1,0 +1,202 @@
+/* ─── Coming Soon Page ───────────────────────────────────────── */
+
+.page-coming-soon {
+  position: relative;
+  background: #090a0d;
+  overflow-x: hidden;
+}
+
+/* ─── Header text ──────────────────────────────────────────────── */
+.cs-header {
+  position: absolute;
+  left: 152px;
+  top: 90px;
+  z-index: 4;
+}
+
+.cs-commit {
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: var(--text-accent);
+  margin: 0;
+}
+
+/* Blinking cursor during and after typing */
+.cs-commit.is-typing::after,
+.cs-commit.is-typed::after {
+  content: '_';
+  color: var(--text-accent);
+  animation: cs-blink 0.7s step-end infinite;
+}
+
+@keyframes cs-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.cs-title {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: var(--text-strong);
+  margin: 0;
+}
+
+.cs-bracket { color: var(--text-sub); }
+
+.cs-sub {
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: var(--text-sub);
+  margin: 0;
+}
+
+/* ACCESS GRANTED message — appended via JS */
+.cs-access-msg {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: #00e887;
+  margin: 0;
+}
+
+/* ─── Spacer — creates flow height so footer sits right ──────── */
+.cs-spacer { height: 350px; }
+
+/* ─── Text lines hidden until sequenced ─────────────────────── */
+.cs-title,
+.cs-sub {
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.cs-title.is-visible,
+.cs-sub.is-visible { opacity: 1; }
+
+/* ─── Parallax elements — hidden until text is done ─────────── */
+.cs-letters,
+.cs-monkey,
+.cs-atari,
+.cs-claude {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
+}
+.cs-letters.is-visible,
+.cs-monkey.is-visible,
+.cs-atari.is-visible,
+.cs-claude.is-visible { opacity: 1; }
+
+.cs-letters {
+  top: 520px;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 2;
+}
+
+/* ── Glitch animation ──────────────────────────────────────────── */
+@keyframes cs-glitch {
+  0%    { transform: none; filter: none; }
+  4.9%  { transform: none; filter: none; }
+  5%    { transform: translateX(9px);  filter: hue-rotate(90deg) saturate(2); }
+  9.9%  { transform: translateX(9px);  filter: hue-rotate(90deg) saturate(2); }
+  10%   { transform: none; filter: none; }
+  14.9% { transform: none; filter: none; }
+  15%   { transform: translateX(-7px); filter: brightness(1.9) hue-rotate(-60deg); }
+  19.9% { transform: translateX(-7px); filter: brightness(1.9) hue-rotate(-60deg); }
+  20%   { transform: none; filter: none; }
+  29.9% { transform: none; filter: none; }
+  30%   { transform: translateX(5px);  filter: hue-rotate(180deg) saturate(3); }
+  34.9% { transform: translateX(5px);  filter: hue-rotate(180deg) saturate(3); }
+  35%   { transform: none; filter: none; }
+  39.9% { transform: none; filter: none; }
+  40%   { transform: translateX(-4px); filter: brightness(1.4) hue-rotate(45deg); }
+  44.9% { transform: translateX(-4px); filter: brightness(1.4) hue-rotate(45deg); }
+  45%   { transform: none; filter: none; }
+  100%  { transform: none; filter: none; }
+}
+
+.cs-letters.is-glitching {
+  animation: cs-glitch 0.45s linear;
+}
+
+.cs-monkey {
+  top: 436px;
+  left: -120px;
+  width: 378px;
+  height: 559px;
+  object-fit: contain;
+  z-index: 3;
+}
+
+.cs-atari {
+  top: 651px;
+  left: 1121px;
+  width: 269px;
+  height: 225px;
+  object-fit: contain;
+  z-index: 3;
+}
+
+/* Claude follows cursor via JS — position: fixed */
+.cs-claude {
+  position: fixed;
+  width: 105px;
+  height: 69px;
+  z-index: 100;
+  cursor: pointer;
+  pointer-events: all;
+  transition: opacity 0.2s ease;
+}
+
+@keyframes cs-float {
+  0%, 100% { transform: translateY(0);     }
+  50%       { transform: translateY(-12px); }
+}
+
+/* ── Pixel bullet — space invader style, fires downward ──────── */
+.cs-bullet {
+  position: fixed;
+  width: 11px;
+  height: 11px;
+  background: #ff6a00;
+  box-shadow: 0 0 8px #ff6a00;
+  image-rendering: pixelated;
+  border-radius: 0;
+  z-index: 200;
+  pointer-events: none;
+}
+
+/* ─── Footer overrides ─────────────────────────────────────────── */
+.page-coming-soon .footer-space {
+  position: relative;
+  z-index: 1;
+}
+
+.page-coming-soon .bar-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+}
+
+.cs-date { color: var(--text-accent); }
+
+/* Broadcasting text — replaces access button in footer */
+.cs-broadcast {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: var(--text-strong);
+  margin: 0;
+}

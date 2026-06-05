@@ -73,11 +73,19 @@
 /* ─── Subscribe form ─────────────────────────────────────────── */
 .cs-form {
   position: absolute;
-  left: 50%;
-  top: 42%;
+  left: 70%;
+  top: 60%;
   transform: translate(-50%, -50%);
   width: 560px;
   z-index: 4;
+  opacity: 0;
+  translate: 0 24px;
+  transition: opacity 1s cubic-bezier(0.76, 0, 0.24, 1),
+              translate 1s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.cs-form.is-visible {
+  opacity: 1;
+  translate: 0 0;
 }
 
 .cs-form-title {

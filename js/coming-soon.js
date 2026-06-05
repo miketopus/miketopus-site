@@ -160,6 +160,11 @@
       }, 3100 + i * 180);
     });
 
+    setTimeout(function () {
+      var form = document.querySelector('.cs-form');
+      if (form) form.classList.add('is-visible');
+    }, 4140);
+
     setTimeout(startGlitch, 4200);
   }
 

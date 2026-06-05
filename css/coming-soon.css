@@ -97,6 +97,20 @@
   margin: 0 0 20px 16px;
 }
 
+@keyframes cs-shake {
+  0%        { translate: 0 0; }
+  15%       { translate: -6px 0; }
+  30%       { translate: 5px 0; }
+  45%       { translate: -4px 0; }
+  60%       { translate: 3px 0; }
+  75%       { translate: -2px 0; }
+  100%      { translate: 0 0; }
+}
+
+.cs-form-field.is-shaking {
+  animation: cs-shake 0.35s ease;
+}
+
 .cs-form-field {
   display: flex;
   align-items: center;

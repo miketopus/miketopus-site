@@ -126,7 +126,7 @@
     function impactField() {
       var field = document.querySelector('.cs-form-field');
       if (!field) return;
-      field.style.transition = 'none';
+      field.style.transition  = 'none';
       field.style.borderColor = 'rgba(255, 106, 0, 0.9)';
       field.style.boxShadow   = '0 0 24px rgba(255, 106, 0, 0.35)';
       setTimeout(function () {
@@ -134,6 +134,13 @@
         field.style.borderColor = '';
         field.style.boxShadow   = '';
       }, 60);
+      field.classList.remove('is-shaking');
+      void field.offsetWidth;
+      field.classList.add('is-shaking');
+      field.addEventListener('animationend', function handler() {
+        field.classList.remove('is-shaking');
+        field.removeEventListener('animationend', handler);
+      });
     }
 
     // ── Click: fire bullets toward the input field ───────────────
@@ -145,7 +152,7 @@
       var fieldEl  = document.querySelector('.cs-form-field');
       var target   = fieldEl ? fieldEl.getBoundingClientRect() : null;
       var targetX  = target ? target.left + target.width  / 2 : bx;
-      var targetY  = target ? target.top  + target.height / 2 : window.innerHeight;
+      var targetY  = target ? target.top : window.innerHeight;
 
       [0, 120].forEach(function (delay, i) {
         setTimeout(function () {

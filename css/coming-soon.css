@@ -70,6 +70,75 @@
 /* ─── Spacer — not needed without scroll ─────────────────────── */
 .cs-spacer { height: 0; }
 
+/* ─── Subscribe form ─────────────────────────────────────────── */
+.cs-form {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  width: 560px;
+  z-index: 4;
+}
+
+.cs-form-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 32px;
+  line-height: 32px;
+  letter-spacing: -0.64px;
+  color: var(--text-strong);
+  margin: 0 0 20px 16px;
+}
+
+.cs-form-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 80px;
+  padding: 20px 30px;
+  background: rgba(9, 10, 13, 0.5);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(71, 43, 239, 0.8);
+  border-radius: 24px;
+  margin-bottom: 16px;
+}
+
+.cs-form-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 26px;
+  color: var(--text-weak);
+}
+
+.cs-form-input::placeholder { color: var(--text-weak); }
+
+.cs-form-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-weak);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.cs-form-btn:hover { color: var(--text-strong); }
+
+.cs-form-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.28px;
+  color: var(--text-strong);
+  margin: 0;
+}
+
 /* ─── Text lines hidden until sequenced ─────────────────────── */
 .cs-title,
 .cs-sub {
@@ -96,6 +165,7 @@
 .cs-claude.is-visible { opacity: 1; }
 
 .cs-letters {
+  display: none;
   top: 60vh;
   left: 0;
   width: 100%;

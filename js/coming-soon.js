@@ -105,6 +105,12 @@
       barFooter.addEventListener('mouseleave', enableFollow);
     }
 
+    var csForm = document.querySelector('.cs-form');
+    if (csForm) {
+      csForm.addEventListener('mouseenter', disableFollow);
+      csForm.addEventListener('mouseleave', enableFollow);
+    }
+
     function loop() {
       if (followEnabled) {
         curX += (mouseX - curX) * 0.08;

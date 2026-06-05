@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>miketopus — Product Designer</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/components/site-header.js" defer></script>
+  <script src="js/components/work-card.js" defer></script>
+  <script src="js/anim.js" defer></script>
+</head>
+<body class="page-home">
+
+  <site-header page=""></site-header>
+
+  <!-- ─── Hero ────────────────────────────────────────────────── -->
+  <section class="section-hero">
+    <div class="hero-blobs" aria-hidden="true">
+    <div class="hero-blob hero-blob--purple"></div>
+    <div class="hero-blob hero-blob--blue"></div>
+  </div>
+    <div class="hero-title">
+      <div class="hero-line-wrap">
+        <h1 class="hero-anim">hello</h1>
+      </div>
+      <div class="hero-line-wrap">
+        <p class="hero-anim">I design interfaces people enjoy, build side projects that just feel right, train my dog,<br>and frame the world one shot at a time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Work Section ─────────────────────────────────────────── -->
+  <section class="section-work" aria-labelledby="work-heading">
+    <p class="ghost-text ghost-text--work" aria-hidden="true">the space</p>
+
+    <div class="section-header">
+      <h2 id="work-heading" data-anim data-anim-delay="0">work</h2>
+      <a href="work.html" class="btn-pill" data-anim data-anim-delay="120">view more</a>
+    </div>
+
+    <div class="work-grid">
+
+      <work-card
+        data-anim data-anim-delay="80"
+        variant="big"
+        src="assets/banksy-asset.png"
+        title="Name project"
+        category="icons"
+        href="single.html"
+      ></work-card>
+
+      <div class="small-cards-grid">
+        <work-card
+          data-anim data-anim-delay="160"
+          src="assets/banksy-asset.png"
+          title="Name project"
+          category="design"
+          href="single.html"
+        ></work-card>
+
+        <work-card
+          data-anim data-anim-delay="240"
+          src="assets/banksy-asset.png"
+          title="Name project"
+          category="design"
+          href="single.html"
+        ></work-card>
+
+        <work-card
+          data-anim data-anim-delay="320"
+          src="assets/banksy-asset.png"
+          title="Name project"
+          category="design"
+          href="single.html"
+        ></work-card>
+
+        <work-card
+          data-anim data-anim-delay="400"
+          variant="small"
+          featured
+          src="assets/banksy-asset.png"
+          title="Name project"
+          category="3D — Freebie"
+          href="single.html"
+        ></work-card>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── New Projects CTA ─────────────────────────────────────── -->
+  <section class="section-new-projects" aria-labelledby="cta-heading">
+    <p class="ghost-text ghost-text--np" aria-hidden="true">new projects?</p>
+    <div class="new-projects-content">
+      <div class="np-text-group">
+        <h2 id="cta-heading" data-anim data-anim-delay="0">get in touch</h2>
+        <p data-anim data-anim-delay="120">I am available for freelance work, you can say hello via email.</p>
+      </div>
+      <a href="mailto:hello@miketopus.com" class="btn-pill" data-anim data-anim-delay="220">email</a>
+    </div>
+  </section>
+
+  <!-- ─── Footer ──────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="footer-space" aria-hidden="true">
+      <img src="assets/_footer-space.png" alt="">
+    </div>
+    <div class="bar-footer">
+      <span data-anim data-anim-delay="0">All Rights Reserved  ©2024</span>
+      <a href="wall-space.html" data-anim data-anim-delay="100">Wall Space Store</a>
+    </div>
+  </footer>
+
+</body>
+</html>

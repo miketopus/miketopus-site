@@ -94,7 +94,7 @@
 
       this.innerHTML = `
         <header class="site-header">
-          <a href="index.html" class="header-logo" aria-label="miketopus home">
+          <a href="index-home.html" class="header-logo" aria-label="miketopus home">
             <img src="${logo}" alt="miketopus logo">
           </a>
 

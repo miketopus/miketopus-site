@@ -3,113 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>miketopus — Product Designer</title>
+  <title>miketopus — Coming Soon</title>
   <link rel="stylesheet" href="css/styles.css">
-  <script src="js/components/site-header.js" defer></script>
-  <script src="js/components/work-card.js" defer></script>
-  <script src="js/anim.js" defer></script>
+  <link rel="stylesheet" href="css/coming-soon.css">
 </head>
-<body class="page-home">
+<body class="page-coming-soon">
 
-  <site-header page=""></site-header>
-
-  <!-- ─── Hero ────────────────────────────────────────────────── -->
-  <section class="section-hero">
-    <div class="hero-blobs" aria-hidden="true">
-    <div class="hero-blob hero-blob--purple"></div>
-    <div class="hero-blob hero-blob--blue"></div>
+  <!-- ─── Header text ──────────────────────────────────────────── -->
+  <div class="cs-header">
+    <p class="cs-commit">commit: "init —— redesigning how I show up online"</p>
+    <p class="cs-sub">// author: miketopus · branch: main · status: rebuilding from scratch</p>
   </div>
-    <div class="hero-title">
-      <div class="hero-line-wrap">
-        <h1 class="hero-anim">hello</h1>
-      </div>
-      <div class="hero-line-wrap">
-        <p class="hero-anim">I design interfaces people enjoy, build side projects that just feel right, train my dog,<br>and frame the world one shot at a time.</p>
-      </div>
-    </div>
-  </section>
 
-  <!-- ─── Work Section ─────────────────────────────────────────── -->
-  <section class="section-work" aria-labelledby="work-heading">
-    <p class="ghost-text ghost-text--work" aria-hidden="true">the space</p>
+  <!-- ─── Spacer — creates flow height so footer lands in the right place -->
+  <div class="cs-spacer"></div>
 
-    <div class="section-header">
-      <h2 id="work-heading" data-anim data-anim-delay="0">work</h2>
-      <a href="work.html" class="btn-pill" data-anim data-anim-delay="120">view more</a>
-    </div>
-
-    <div class="work-grid">
-
-      <work-card
-        data-anim data-anim-delay="80"
-        variant="big"
-        src="assets/banksy-asset.png"
-        title="Name project"
-        category="icons"
-        href="single.html"
-      ></work-card>
-
-      <div class="small-cards-grid">
-        <work-card
-          data-anim data-anim-delay="160"
-          src="assets/banksy-asset.png"
-          title="Name project"
-          category="design"
-          href="single.html"
-        ></work-card>
-
-        <work-card
-          data-anim data-anim-delay="240"
-          src="assets/banksy-asset.png"
-          title="Name project"
-          category="design"
-          href="single.html"
-        ></work-card>
-
-        <work-card
-          data-anim data-anim-delay="320"
-          src="assets/banksy-asset.png"
-          title="Name project"
-          category="design"
-          href="single.html"
-        ></work-card>
-
-        <work-card
-          data-anim data-anim-delay="400"
-          variant="small"
-          featured
-          src="assets/banksy-asset.png"
-          title="Name project"
-          category="3D — Freebie"
-          href="single.html"
-        ></work-card>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ─── New Projects CTA ─────────────────────────────────────── -->
-  <section class="section-new-projects" aria-labelledby="cta-heading">
-    <p class="ghost-text ghost-text--np" aria-hidden="true">new projects?</p>
-    <div class="new-projects-content">
-      <div class="np-text-group">
-        <h2 id="cta-heading" data-anim data-anim-delay="0">get in touch</h2>
-        <p data-anim data-anim-delay="120">I am available for freelance work, you can say hello via email.</p>
-      </div>
-      <a href="mailto:hello@miketopus.com" class="btn-pill" data-anim data-anim-delay="220">email</a>
-    </div>
-  </section>
+  <!-- ─── Parallax visual elements (absolute, overlap footer) ──── -->
+  <img class="cs-letters"  src="assets/comming-soon/mike-splash.png"   alt="mike">
+  <img class="cs-monkey"   src="assets/comming-soon/monkey-mike.png"   alt="" aria-hidden="true">
+  <img class="cs-atari"    src="assets/comming-soon/control-atari.png" alt="" aria-hidden="true">
+  <img class="cs-claude"   src="assets/comming-soon/claude-vector.svg" alt="" aria-hidden="true">
 
   <!-- ─── Footer ──────────────────────────────────────────────── -->
   <footer class="site-footer">
-    <div class="footer-space" aria-hidden="true">
-      <img src="assets/_footer-space.png" alt="">
-    </div>
+    <div class="footer-space" aria-hidden="true"></div>
     <div class="bar-footer">
-      <span data-anim data-anim-delay="0">All Rights Reserved  ©2024</span>
-      <a href="wall-space.html" data-anim data-anim-delay="100">Wall Space Store</a>
+
+      <!-- Social icons — same as site-header DS pattern -->
+      <div class="header-social">
+        <a href="https://www.instagram.com/miketopus" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icons/instagram.svg" alt="Instagram" width="20" height="20"></a>
+        <a href="https://dribbble.com/miketopus"      class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Dribbble"><img src="assets/icons/dribbble.svg"   alt="Dribbble"  width="20" height="20"></a>
+        <a href="https://unsplash.com/es/@miketopus"  class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Unsplash"><img src="assets/icons/unsplash.svg"   alt="Unsplash"  width="20" height="20"></a>
+        <a href="https://figma.com/@miketopus"        class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Figma"><img src="assets/icons/figma.svg"         alt="Figma"     width="20" height="20"></a>
+      </div>
+
+      <p class="cs-broadcast">miketopus broadcasting on <span class="cs-bracket">[</span><span class="cs-date">08·08·2026</span><span class="cs-bracket">]</span></p>
+
     </div>
   </footer>
 
+  <script src="js/coming-soon.js" defer></script>
 </body>
 </html>

@@ -105,6 +105,14 @@ button { cursor: pointer; border: none; background: none; }
 .social-icon:hover { opacity: 1; }
 .social-icon img { width: 20px; height: 20px; }
 
+@media (pointer: coarse) {
+  .social-icon {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+}
+
 /* ─── Pill Button ────────────────────────────────────────────── */
 .btn-pill {
   display: inline-flex;

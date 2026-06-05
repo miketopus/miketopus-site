@@ -108,6 +108,7 @@
   border: 1px solid rgba(71, 43, 239, 0.8);
   border-radius: 24px;
   margin-bottom: 16px;
+  transition: border-color 0.7s ease, box-shadow 0.7s ease;
 }
 
 .cs-form-input {

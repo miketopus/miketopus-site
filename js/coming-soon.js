@@ -122,15 +122,32 @@
     }
     loop();
 
-    // ── Click: fire orange bullets downward ─────────────────────
-    claudeEl.addEventListener('click', function () {
-      var rect    = claudeEl.getBoundingClientRect();
-      var bx      = rect.left + rect.width / 2;
-      var by      = rect.bottom;
-      var travelY = window.innerHeight - by + 11;
-      var duration = 120 + (travelY / window.innerHeight) * 500;
+    // ── Impact: flash input border orange ───────────────────────
+    function impactField() {
+      var field = document.querySelector('.cs-form-field');
+      if (!field) return;
+      field.style.transition = 'none';
+      field.style.borderColor = 'rgba(255, 106, 0, 0.9)';
+      field.style.boxShadow   = '0 0 24px rgba(255, 106, 0, 0.35)';
+      setTimeout(function () {
+        field.style.transition  = 'border-color 0.7s ease, box-shadow 0.7s ease';
+        field.style.borderColor = '';
+        field.style.boxShadow   = '';
+      }, 60);
+    }
 
-      [0, 120].forEach(function (delay) {
+    // ── Click: fire bullets toward the input field ───────────────
+    claudeEl.addEventListener('click', function () {
+      var rect     = claudeEl.getBoundingClientRect();
+      var bx       = rect.left + rect.width / 2;
+      var by       = rect.bottom;
+
+      var fieldEl  = document.querySelector('.cs-form-field');
+      var target   = fieldEl ? fieldEl.getBoundingClientRect() : null;
+      var targetX  = target ? target.left + target.width  / 2 : bx;
+      var targetY  = target ? target.top  + target.height / 2 : window.innerHeight;
+
+      [0, 120].forEach(function (delay, i) {
         setTimeout(function () {
           var bullet = document.createElement('div');
           bullet.className = 'cs-bullet';
@@ -138,11 +155,18 @@
           bullet.style.top  = by + 'px';
           document.body.appendChild(bullet);
 
+          var spread   = i === 0 ? -18 : 18;
+          var dx       = targetX - bx + spread;
+          var dy       = targetY - by;
+          var distance = Math.sqrt(dx * dx + dy * dy);
+          var duration = Math.max(260, distance * 0.65);
+
           bullet.animate([
-            { transform: 'translateY(0)',          opacity: 1 },
-            { transform: 'translateY(' + travelY + 'px)', opacity: 1 }
+            { transform: 'translate(0, 0)',                             opacity: 1 },
+            { transform: 'translate(' + dx + 'px, ' + dy + 'px)',      opacity: 1 }
           ], { duration: duration, easing: 'linear', fill: 'forwards' }).onfinish = function () {
             bullet.remove();
+            if (fieldEl) impactField();
           };
         }, delay);
       });

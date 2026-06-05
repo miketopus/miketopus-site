@@ -162,8 +162,10 @@
           bullet.style.top  = by + 'px';
           document.body.appendChild(bullet);
 
-          var spread   = i === 0 ? -18 : 18;
-          var dx       = targetX - bx + spread;
+          var inputLeft  = target ? target.left  + 20 : targetX - 100;
+          var inputRight = target ? target.right - 20 : targetX + 100;
+          var randomX    = inputLeft + Math.random() * (inputRight - inputLeft);
+          var dx         = randomX - bx;
           var dy       = targetY - by;
           var distance = Math.sqrt(dx * dx + dy * dy);
           var duration = Math.max(260, distance * 0.65);

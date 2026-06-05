@@ -3,7 +3,8 @@
 .page-coming-soon {
   position: relative;
   background: #090a0d;
-  overflow-x: hidden;
+  overflow: hidden;
+  height: 100vh;
 }
 
 /* ─── Header text ──────────────────────────────────────────────── */
@@ -66,8 +67,8 @@
   margin: 0;
 }
 
-/* ─── Spacer — creates flow height so footer sits right ──────── */
-.cs-spacer { height: 350px; }
+/* ─── Spacer — not needed without scroll ─────────────────────── */
+.cs-spacer { height: 0; }
 
 /* ─── Text lines hidden until sequenced ─────────────────────── */
 .cs-title,
@@ -95,7 +96,7 @@
 .cs-claude.is-visible { opacity: 1; }
 
 .cs-letters {
-  top: 520px;
+  top: 60vh;
   left: 0;
   width: 100%;
   height: auto;
@@ -129,7 +130,7 @@
 }
 
 .cs-monkey {
-  top: 436px;
+  top: 260px;
   left: -120px;
   width: 378px;
   height: 559px;
@@ -138,10 +139,10 @@
 }
 
 .cs-atari {
-  top: 651px;
-  left: 1121px;
-  width: 269px;
-  height: 225px;
+  top: 552px;
+  left: 1220px;
+  width: 323px;
+  height: 270px;
   object-fit: contain;
   z-index: 3;
 }
@@ -177,7 +178,11 @@
 
 /* ─── Footer overrides ─────────────────────────────────────────── */
 .page-coming-soon .footer-space {
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 761px;
   z-index: 1;
 }
 
@@ -189,7 +194,17 @@
   z-index: 5;
 }
 
-.cs-date { color: var(--text-accent); }
+.bar-footer .cs-date { color: var(--text-link); }
+
+/* Social icons — 24px with btn-press bounce on hover */
+.page-coming-soon .bar-footer .social-icon img {
+  width: 24px;
+  height: 24px;
+}
+.page-coming-soon .bar-footer .social-icon:hover {
+  opacity: 1;
+  animation: btn-press 0.35s ease forwards;
+}
 
 /* Broadcasting text — replaces access button in footer */
 .cs-broadcast {

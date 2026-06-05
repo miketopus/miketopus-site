@@ -19,32 +19,43 @@
     setTimeout(tick, charDelay);
   }
 
-  // ── Parallax — claude excluded, it follows cursor instead ──────
-  var parallaxItems = [];
-
+  // ── Parallax — cursor-based, claude excluded (follows cursor separately) ──
   function initParallax() {
-    parallaxItems = [
-      { sel: '.cs-letters', base: 520, speed: 0.3  },
-      { sel: '.cs-monkey',  base: 436, speed: 0.15 },
-      { sel: '.cs-atari',   base: 651, speed: 0.1  },
+    var items = [
+      { sel: '.cs-letters', sx: 0.018, sy: 0.010 },
+      { sel: '.cs-monkey',  sx: 0.040, sy: 0.025 },
+      { sel: '.cs-atari',   sx: 0.028, sy: 0.016 },
     ].map(function (item) {
       item.el = document.querySelector(item.sel);
       return item;
     }).filter(function (item) { return !!item.el; });
-  }
 
-  var scrollTicking = false;
-  window.addEventListener('scroll', function () {
-    if (scrollTicking) return;
-    scrollTicking = true;
-    requestAnimationFrame(function () {
-      var sy = window.scrollY;
-      parallaxItems.forEach(function (item) {
-        item.el.style.top = (item.base + sy * item.speed) + 'px';
-      });
-      scrollTicking = false;
+    var cx = window.innerWidth  / 2;
+    var cy = window.innerHeight / 2;
+    var curX = cx, curY = cy;
+    var mouseX = cx, mouseY = cy;
+
+    window.addEventListener('resize', function () {
+      cx = window.innerWidth  / 2;
+      cy = window.innerHeight / 2;
     });
-  }, { passive: true });
+
+    document.addEventListener('mousemove', function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    (function loop() {
+      curX += (mouseX - curX) * 0.06;
+      curY += (mouseY - curY) * 0.06;
+      var dx = curX - cx;
+      var dy = curY - cy;
+      items.forEach(function (item) {
+        item.el.style.translate = (dx * item.sx) + 'px ' + (dy * item.sy) + 'px';
+      });
+      requestAnimationFrame(loop);
+    }());
+  }
 
   // ── Glitch on mike-splash ──────────────────────────────────────
   function startGlitch() {

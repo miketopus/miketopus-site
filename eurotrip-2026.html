@@ -177,8 +177,8 @@ a.res-link:hover{text-decoration:underline}
   .city-badge  { display:none }
   .cs-code     { display:none }
 
-  /* toggle → bottom para no chocar con el banner sticky */
-  #mode-toggle { top:auto;bottom:20px;right:16px }
+  /* toggle → bottom-right, separado del contenido */
+  #mode-toggle { top:auto;bottom:24px;right:20px;padding:4px }
 
   /* today banner */
   .today-inner { padding:.625rem 1.25rem;gap:8px }
@@ -231,23 +231,34 @@ a.res-link:hover{text-decoration:underline}
   .footer      { padding:1rem 1.25rem }
 }
 
-/* ─── Mode Toggle ─────────────────────────────────────────── */
+/* ─── Mode Toggle (iOS style) ────────────────────────────── */
 #mode-toggle {
   position:fixed;top:16px;right:16px;z-index:200;
-  display:flex;align-items:center;gap:6px;
-  padding:7px 14px 7px 10px;
+  background:none;border:none;padding:6px;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
   border-radius:var(--radius-pill);
-  background:var(--bg3);border:1px solid var(--border2);
-  font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;
-  color:var(--text3);cursor:pointer;
-  transition:background .2s,border-color .2s,color .2s,box-shadow .2s;
-  box-shadow:0 2px 12px rgba(0,0,0,0.28);
 }
-#mode-toggle:hover{background:var(--border2);color:var(--text2);box-shadow:0 4px 16px rgba(0,0,0,0.38)}
-#mode-toggle svg{width:14px;height:14px;flex-shrink:0}
-.icon-moon{display:none}
-body.light .icon-sun {display:none}
-body.light .icon-moon{display:block}
+#mode-toggle:focus-visible { outline:2px solid var(--text-accent);outline-offset:2px }
+.toggle-track {
+  display:block;width:50px;height:28px;border-radius:14px;
+  background:var(--bg3);border:1.5px solid var(--border2);
+  position:relative;
+  transition:background .3s ease,border-color .3s ease,box-shadow .3s ease;
+  box-shadow:inset 0 1px 4px rgba(0,0,0,0.4),0 2px 10px rgba(0,0,0,0.3);
+}
+.toggle-thumb {
+  position:absolute;top:3px;left:3px;
+  width:20px;height:20px;border-radius:50%;
+  background:#ffffff;
+  box-shadow:0 1px 5px rgba(0,0,0,0.45),0 0 0 .5px rgba(0,0,0,0.06);
+  transition:transform .3s cubic-bezier(0.34,1.56,0.64,1);
+}
+/* ON = light mode */
+body.light .toggle-track {
+  background:#e8c87a;border-color:transparent;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,0.08),0 2px 10px rgba(40,46,63,0.18);
+}
+body.light .toggle-thumb { transform:translateX(22px) }
 
 /* ─── Light Mode ──────────────────────────────────────────── */
 body.light {
@@ -284,22 +295,16 @@ body.light .city-chevron           {background:var(--text);box-shadow:0 2px 8px 
 body.light .city-chevron img       {filter:none}
 body.light .city-head:hover .city-chevron{background:#1e2430}
 body.light a.res-link              {color:#6640d8}
-body.light #mode-toggle            {box-shadow:0 2px 12px rgba(40,46,63,0.14)}
-body.light #mode-toggle:hover      {box-shadow:0 4px 16px rgba(40,46,63,0.2)}
+body.light #mode-toggle .toggle-track {box-shadow:inset 0 1px 3px rgba(0,0,0,0.08),0 2px 10px rgba(40,46,63,0.18)}
 </style>
 </head>
 <body>
 <script>if(localStorage.getItem('colorMode')==='light')document.body.classList.add('light')</script>
 
-<button id="mode-toggle" onclick="toggleMode()" aria-label="Cambiar modo de color">
-  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
-    <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-  </svg>
-  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-  <span id="mode-label">light</span>
+<button id="mode-toggle" onclick="toggleMode()" role="switch" aria-checked="false" aria-label="Cambiar modo de color">
+  <span class="toggle-track">
+    <span class="toggle-thumb"></span>
+  </span>
 </button>
 
 <!-- TODAY BANNER (populated by JS) -->
@@ -848,7 +853,7 @@ const EVENTS = [
 // ─── COLOR MODE ──────────────────────────────────────────
 function toggleMode() {
   const isLight = document.body.classList.toggle('light');
-  document.getElementById('mode-label').textContent = isLight ? 'dark' : 'light';
+  document.getElementById('mode-toggle').setAttribute('aria-checked', isLight);
   localStorage.setItem('colorMode', isLight ? 'light' : 'dark');
 }
 
@@ -885,8 +890,8 @@ function formatCountdown(eventDate, eventTime) {
 // ─── INIT ────────────────────────────────────────────────
 function init() {
   if (document.body.classList.contains('light')) {
-    const lbl = document.getElementById('mode-label');
-    if (lbl) lbl.textContent = 'dark';
+    const btn = document.getElementById('mode-toggle');
+    if (btn) btn.setAttribute('aria-checked', 'true');
   }
 
   const t = today();

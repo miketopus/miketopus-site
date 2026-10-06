@@ -19,12 +19,10 @@
     setTimeout(tick, charDelay);
   }
 
-  // ── Parallax — cursor-based, claude excluded (follows cursor separately) ──
+  // ── Parallax — cursor-based ──────────────────────────────────
   function initParallax() {
     var items = [
       { sel: '.cs-letters', sx: 0.018, sy: 0.010 },
-      { sel: '.cs-monkey',  sx: 0.040, sy: 0.025 },
-      { sel: '.cs-atari',   sx: 0.028, sy: 0.016 },
     ].map(function (item) {
       item.el = document.querySelector(item.sel);
       return item;
@@ -72,121 +70,11 @@
     }());
   }
 
-  // ── Claude cursor follow ───────────────────────────────────────
-  function initCursorFollow() {
-    var claudeEl = document.querySelector('.cs-claude');
-    if (!claudeEl) return;
-
-    var mouseX = window.innerWidth  * 0.74;
-    var mouseY = window.innerHeight * 0.35;
-    var curX   = mouseX;
-    var curY   = mouseY;
-    var followEnabled = true;
-
-    document.addEventListener('mousemove', function (e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    function disableFollow() {
-      followEnabled = false;
-      claudeEl.style.opacity = '0';
-      claudeEl.style.pointerEvents = 'none';
-    }
-    function enableFollow() {
-      followEnabled = true;
-      claudeEl.style.opacity = '1';
-      claudeEl.style.pointerEvents = 'all';
-    }
-
-    var barFooter = document.querySelector('.bar-footer');
-    if (barFooter) {
-      barFooter.addEventListener('mouseenter', disableFollow);
-      barFooter.addEventListener('mouseleave', enableFollow);
-    }
-
-    var csForm = document.querySelector('.cs-form');
-    if (csForm) {
-      csForm.addEventListener('mouseenter', disableFollow);
-      csForm.addEventListener('mouseleave', enableFollow);
-    }
-
-    function loop() {
-      if (followEnabled) {
-        curX += (mouseX - curX) * 0.08;
-        curY += (mouseY - curY) * 0.08;
-        claudeEl.style.left = (curX - claudeEl.offsetWidth  / 2) + 'px';
-        claudeEl.style.top  = (curY - claudeEl.offsetHeight / 2) + 'px';
-      }
-      requestAnimationFrame(loop);
-    }
-    loop();
-
-    // ── Impact: flash input border orange ───────────────────────
-    function impactField() {
-      var field = document.querySelector('.cs-form-field');
-      if (!field) return;
-      field.style.transition  = 'none';
-      field.style.borderColor = 'rgba(255, 106, 0, 0.9)';
-      field.style.boxShadow   = '0 0 24px rgba(255, 106, 0, 0.35)';
-      setTimeout(function () {
-        field.style.transition  = 'border-color 0.7s ease, box-shadow 0.7s ease';
-        field.style.borderColor = '';
-        field.style.boxShadow   = '';
-      }, 60);
-      field.classList.remove('is-shaking');
-      void field.offsetWidth;
-      field.classList.add('is-shaking');
-      field.addEventListener('animationend', function handler() {
-        field.classList.remove('is-shaking');
-        field.removeEventListener('animationend', handler);
-      });
-    }
-
-    // ── Click: fire bullets toward the input field ───────────────
-    claudeEl.addEventListener('click', function () {
-      var rect     = claudeEl.getBoundingClientRect();
-      var bx       = rect.left + rect.width / 2;
-      var by       = rect.bottom;
-
-      var fieldEl  = document.querySelector('.cs-form-field');
-      var target   = fieldEl ? fieldEl.getBoundingClientRect() : null;
-      var targetX  = target ? target.left + target.width  / 2 : bx;
-      var targetY  = target ? target.top : window.innerHeight;
-
-      [0, 120].forEach(function (delay, i) {
-        setTimeout(function () {
-          var bullet = document.createElement('div');
-          bullet.className = 'cs-bullet';
-          bullet.style.left = (bx - 5.5) + 'px';
-          bullet.style.top  = by + 'px';
-          document.body.appendChild(bullet);
-
-          var inputLeft  = target ? target.left  + 20 : targetX - 100;
-          var inputRight = target ? target.right - 20 : targetX + 100;
-          var randomX    = inputLeft + Math.random() * (inputRight - inputLeft);
-          var dx         = randomX - bx;
-          var dy       = targetY - by;
-          var distance = Math.sqrt(dx * dx + dy * dy);
-          var duration = Math.max(260, distance * 0.65);
-
-          bullet.animate([
-            { transform: 'translate(0, 0)',                             opacity: 1 },
-            { transform: 'translate(' + dx + 'px, ' + dy + 'px)',      opacity: 1 }
-          ], { duration: duration, easing: 'linear', fill: 'forwards' }).onfinish = function () {
-            bullet.remove();
-            if (fieldEl) impactField();
-          };
-        }, delay);
-      });
-    });
-  }
-
   // ── Reveal sequence ────────────────────────────────────────────
   function revealSequence() {
     var commit = document.querySelector('.cs-commit');
     var sub    = document.querySelector('.cs-sub');
-    var images = ['.cs-letters', '.cs-monkey', '.cs-atari', '.cs-claude'];
+    var images = ['.cs-letters'];
 
     if (commit) typewriter(commit, commit.textContent.trim(), 38);
 
@@ -199,18 +87,12 @@
       }, 3100 + i * 180);
     });
 
-    setTimeout(function () {
-      var form = document.querySelector('.cs-form');
-      if (form) form.classList.add('is-visible');
-    }, 4140);
-
     setTimeout(startGlitch, 4200);
   }
 
   // ── Init ───────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
     initParallax();
-    initCursorFollow();
     revealSequence();
   });
 

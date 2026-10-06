@@ -70,98 +70,6 @@
 /* ─── Spacer — not needed without scroll ─────────────────────── */
 .cs-spacer { height: 0; }
 
-/* ─── Subscribe form ─────────────────────────────────────────── */
-.cs-form {
-  position: absolute;
-  left: 70%;
-  top: 60%;
-  transform: translate(-50%, -50%);
-  width: 560px;
-  z-index: 4;
-  opacity: 0;
-  translate: 0 24px;
-  transition: opacity 1s cubic-bezier(0.76, 0, 0.24, 1),
-              translate 1s cubic-bezier(0.76, 0, 0.24, 1);
-}
-.cs-form.is-visible {
-  opacity: 1;
-  translate: 0 0;
-}
-
-.cs-form-title {
-  font-family: 'Archivo Black', sans-serif;
-  font-size: 32px;
-  line-height: 32px;
-  letter-spacing: -0.64px;
-  color: var(--text-strong);
-  margin: 0 0 20px 16px;
-}
-
-@keyframes cs-shake {
-  0%        { translate: 0 0; }
-  15%       { translate: -6px 0; }
-  30%       { translate: 5px 0; }
-  45%       { translate: -4px 0; }
-  60%       { translate: 3px 0; }
-  75%       { translate: -2px 0; }
-  100%      { translate: 0 0; }
-}
-
-.cs-form-field.is-shaking {
-  animation: cs-shake 0.35s ease;
-}
-
-.cs-form-field {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 80px;
-  padding: 20px 30px;
-  background: rgba(9, 10, 13, 0.5);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(71, 43, 239, 0.8);
-  border-radius: 24px;
-  margin-bottom: 16px;
-  transition: border-color 0.7s ease, box-shadow 0.7s ease;
-}
-
-.cs-form-input {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  font-family: 'IBM Plex Mono', monospace;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 26px;
-  color: var(--text-weak);
-}
-
-.cs-form-input::placeholder { color: var(--text-weak); }
-
-.cs-form-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-weak);
-  display: flex;
-  align-items: center;
-  padding: 0;
-  transition: color 0.15s;
-}
-
-.cs-form-btn:hover { color: var(--text-strong); }
-
-.cs-form-sub {
-  font-family: 'IBM Plex Mono', monospace;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 14px;
-  letter-spacing: -0.28px;
-  color: var(--text-strong);
-  margin: 0;
-}
-
 /* ─── Text lines hidden until sequenced ─────────────────────── */
 .cs-title,
 .cs-sub {
@@ -172,20 +80,14 @@
 .cs-sub.is-visible { opacity: 1; }
 
 /* ─── Parallax elements — hidden until text is done ─────────── */
-.cs-letters,
-.cs-monkey,
-.cs-atari,
-.cs-claude {
+.cs-letters {
   position: absolute;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.9s cubic-bezier(0.76, 0, 0.24, 1);
   will-change: transform;
 }
-.cs-letters.is-visible,
-.cs-monkey.is-visible,
-.cs-atari.is-visible,
-.cs-claude.is-visible { opacity: 1; }
+.cs-letters.is-visible { opacity: 1; }
 
 .cs-letters {
   display: none;
@@ -220,53 +122,6 @@
 
 .cs-letters.is-glitching {
   animation: cs-glitch 0.45s linear;
-}
-
-.cs-monkey {
-  top: 260px;
-  left: -120px;
-  width: 378px;
-  height: 559px;
-  object-fit: contain;
-  z-index: 3;
-}
-
-.cs-atari {
-  top: 552px;
-  left: 1220px;
-  width: 323px;
-  height: 270px;
-  object-fit: contain;
-  z-index: 3;
-}
-
-/* Claude follows cursor via JS — position: fixed */
-.cs-claude {
-  position: fixed;
-  width: 105px;
-  height: 69px;
-  z-index: 100;
-  cursor: pointer;
-  pointer-events: all;
-  transition: opacity 0.2s ease;
-}
-
-@keyframes cs-float {
-  0%, 100% { transform: translateY(0);     }
-  50%       { transform: translateY(-12px); }
-}
-
-/* ── Pixel bullet — space invader style, fires downward ──────── */
-.cs-bullet {
-  position: fixed;
-  width: 11px;
-  height: 11px;
-  background: #ff6a00;
-  box-shadow: 0 0 8px #ff6a00;
-  image-rendering: pixelated;
-  border-radius: 0;
-  z-index: 200;
-  pointer-events: none;
 }
 
 /* ─── Footer overrides ─────────────────────────────────────────── */

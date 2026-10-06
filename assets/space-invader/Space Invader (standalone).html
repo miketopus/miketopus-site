@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Space Invader — Pixel Art 3D</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #faf9f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+    #__bundler_loading { position: fixed; bottom: 20px; right: 20px; font: 13px/1.4 -apple-system, BlinkMacSystemFont, sans-serif; color: #666; background: #fff; padding: 8px 14px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); z-index: 10000; }
+    #__bundler_thumbnail { position: fixed; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #faf9f5; z-index: 9999; }
+    #__bundler_thumbnail svg { width: 100%; height: 100%; object-fit: contain; }
+    #__bundler_placeholder { color: #999; font-size: 14px; }
+  </style>
+  <noscript>
+    <style>#__bundler_loading { display: none; }</style>
+    <div style="position:fixed;bottom:12px;left:12px;font:13px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;color:#999;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.08);z-index:10000;">
+      This page requires JavaScript to display.
+    </div>
+  </noscript>
+</head>
+<body>
+  <div id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#000"></rect><g fill="#fff"><rect x="38" y="36" width="6" height="6"></rect><rect x="56" y="36" width="6" height="6"></rect><rect x="32" y="42" width="36" height="12"></rect><rect x="32" y="54" width="6" height="10"></rect><rect x="62" y="54" width="6" height="10"></rect></g></svg></div>
+  <div id="__bundler_loading">Unpacking...</div>
+
+  <script>
+    
+document.addEventListener('DOMContentLoaded', async function() {
+  const loading = document.getElementById('__bundler_loading');
+  function setStatus(msg) { if (loading) loading.textContent = msg; }
+
+  const FONT_MIME = /^(font[/]|application[/](x-)?font-|application[/]vnd\.ms-fontobject)/i;
+  const MIME_TOKEN = /^[\w.+-]+[/][\w.+-]+$/;
+  function toBase64(bytes) {
+    let bin = '';
+    for (let i = 0; i < bytes.length; i += 0x8000) {
+      bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    }
+    return btoa(bin);
+  }
+
+  // Error sink persists across replaceWith since it's on window, not the DOM.
+  window.addEventListener('error', function(e) {
+    // Failed resource loads (CSP-blocked links, scripts, images) fire plain
+    // events at the element — warn only; real JS errors carry message/error.
+    if (!e.message && !e.error && e.target && e.target !== window) {
+      console.warn('[bundle] resource failed to load:',
+        e.target.tagName, String(e.target.src || e.target.href || ''));
+      return;
+    }
+    var p = document.body || document.documentElement;
+    var d = document.getElementById('__bundler_err') || p.appendChild(document.createElement('div'));
+    d.id = '__bundler_err';
+    d.style.cssText = 'position:fixed;bottom:12px;left:12px;right:12px;font:12px/1.4 ui-monospace,monospace;background:#2a1215;color:#ff8a80;padding:10px 14px;border-radius:8px;border:1px solid #5c2b2e;z-index:99999;white-space:pre-wrap;max-height:40vh;overflow:auto';
+    d.textContent = (d.textContent ? d.textContent + String.fromCharCode(10) : '') +
+      '[bundle] ' + (e.message || e.type) +
+      (e.filename ? ' (' + e.filename.slice(0, 60) + ':' + e.lineno + ')' : '');
+  }, true);
+
+  try {
+    const manifestEl = document.querySelector('script[type="__bundler/manifest"]');
+    const templateEl = document.querySelector('script[type="__bundler/template"]');
+    if (!manifestEl || !templateEl) {
+      setStatus('Error: missing bundle data');
+      console.error('[bundler] Missing script tags — manifestEl:', !!manifestEl, 'templateEl:', !!templateEl);
+      return;
+    }
+
+    const manifest = JSON.parse(manifestEl.textContent);
+    let template = JSON.parse(templateEl.textContent);
+
+    // Nested page bundles (iframe targets). Each ships ONCE, in the ROOT
+    // document's manifest; frame srcs carry an about:blank#<uuid> marker
+    // instead of a substitutable uuid. Every document mints the blobs for
+    // its OWN frames — from local text at the root, or text obtained from
+    // its DIRECT parent over the relay protocol below — so each frame
+    // navigation stays same-origin with its initiator and a deduped page
+    // loads at any depth on any host, including a file:// download's
+    // opaque origins (where a blob minted by one document cannot be
+    // navigated to by another).
+    const pageOrderEl = document.querySelector('script[type="__bundler/page_order"]');
+    const pageOrder = pageOrderEl ? JSON.parse(pageOrderEl.textContent) : [];
+    const pageSet = new Set(pageOrder);
+    const pageTexts = {};
+
+    // ── Nested-page text protocol (parent-chain relay) ──
+    // Page bundles ship once, in the ROOT document's manifest. Every
+    // document mints the blobs for its OWN frames, obtaining page text
+    // through a strict parent-chain relay: a document only ever SENDS to
+    // its direct parent (which, for every document the publisher's own
+    // runtime minted, is another publisher document) and only ACCEPTS
+    // text from that direct parent; requests from below are honored only
+    // for the document's own child frames, and the ROOT never sends
+    // upward at all. That last rule is load-bearing: the artifact host's
+    // frame-ancestors allows claude.ai (and friends) to frame an
+    // artifact, so window.top can be a FOREIGN document — a top-addressed
+    // protocol would hand page uuids to that ancestor and accept forged
+    // "page text" from it, minting attacker HTML as an artifact-origin
+    // blob document. The chain never touches the ancestor: requests stop
+    // at the root, replies are origin-addressed per hop (never '*' when
+    // an origin exists), and both directions are origin-gated (on https
+    // a foreign sender's origin can never equal this document's; in
+    // opaque contexts — file:// — everything serializes as 'null', where
+    // an embedded EXTERNAL frame still fails the gate by carrying its
+    // own real origin, and a sandboxed child of such a frame is excluded
+    // by the own-child-frames check plus uuid unguessability). Shape is
+    // deny-by-default: one request form, one reply form, no error
+    // replies.
+    // window.origin is the SERIALIZED SECURITY origin ('null' in opaque
+    // contexts such as a sandboxed preview iframe) — location.origin is
+    // computed from the URL and stays 'https://…' even when the document
+    // is sandboxed, which would misgate every opaque chain.
+    const OWN_TARGET = /^https?:[/][/]/.test(window.origin || '')
+      ? window.origin
+      : '*';
+    function trustedOrigin(e) {
+      if (e.origin === window.origin) return true; // https chains; opaque==opaque
+      // file:// trees: Chrome serializes the file document's origin as
+      // 'file://' while the blob: documents it mints serialize as 'null',
+      // so the two legitimate shapes can never string-match — accept the
+      // pair in both directions. https origins never serialize as either,
+      // and sender identity (own child frame / direct parent) is checked
+      // separately.
+      return (
+        (e.origin === 'null' &&
+          (window.origin === 'file://' ||
+            window.location.protocol === 'file:')) ||
+        (/^file:/.test(e.origin) && window.origin === 'null')
+      );
+    }
+    // Non-empty only in the root document (nested bundles ship an empty
+    // island), so it doubles as the root marker: the root answers from
+    // local text and treats a miss as authoritative — never relaying to
+    // its (possibly foreign) parent.
+    const isPageRoot = pageOrder.length > 0;
+    const blobUrls = {};
+    const resourceBlobs = {};
+    const UUID_SHAPE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+    const pendingFrames = {}; // uuid -> [{el, frag}] awaiting text for own frames
+    const pendingRelays = {}; // uuid -> [childWindow] awaiting text to pass down
+    function mountPage(el, frag, text) {
+      const pageBlob = new Blob([text], { type: 'text/html' });
+      const u = URL.createObjectURL(pageBlob);
+      resourceBlobs[u] = pageBlob;
+      el.src = u + frag;
+    }
+    function deliverPage(uuid, text) {
+      const frames = pendingFrames[uuid];
+      delete pendingFrames[uuid];
+      if (frames) for (const f of frames) mountPage(f.el, f.frag, text);
+      const relays = pendingRelays[uuid];
+      delete pendingRelays[uuid];
+      if (relays) {
+        for (const cw of relays) {
+          try { cw.postMessage({ __bundler_page: uuid, __bundler_text: text }, OWN_TARGET); } catch (err) { /* gone */ }
+        }
+      }
+    }
+    function ownFrameWindows() {
+      const out = [];
+      for (const f of Array.from(document.querySelectorAll('iframe'))) {
+        try { if (f.contentWindow) out.push(f.contentWindow); } catch (err) { /* detached */ }
+      }
+      return out;
+    }
+    window.addEventListener('message', function (e) {
+      const d = e.data;
+      if (!d || typeof d !== 'object' || !e.source) return;
+      // Origin gate first; the structural checks below (own-child-frames
+      // for requests, direct-parent + solicited-uuid for replies, the
+      // root's never-relay rule) are what hold in fully opaque chains
+      // where origin strings can't discriminate — a sandboxed root's
+      // FOREIGN wrapper still fails all three even though both serialize
+      // as real-vs-'null' rather than matching.
+      if (!trustedOrigin(e)) return;
+      if (typeof d.__bundler_need === 'string' && UUID_SHAPE.test(d.__bundler_need)) {
+        // Requests are honored only for this document's own child frames.
+        if (ownFrameWindows().indexOf(e.source) < 0) return;
+        const uuid = d.__bundler_need;
+        const text = pageTexts[uuid];
+        if (typeof text === 'string') {
+          try { e.source.postMessage({ __bundler_page: uuid, __bundler_text: text }, OWN_TARGET); } catch (err) { /* gone */ }
+          return;
+        }
+        if (isPageRoot || window.parent === window) return; // authoritative miss
+        const waiting = pendingRelays[uuid];
+        if (waiting) {
+          if (waiting.indexOf(e.source) < 0) waiting.push(e.source);
+          return;
+        }
+        // Never-answered uuids would otherwise accumulate forever under a
+        // request spray; past the cap (far above any real page count) new
+        // relays are dropped rather than remembered.
+        if (Object.keys(pendingRelays).length >= 128) return;
+        pendingRelays[uuid] = [e.source];
+        window.parent.postMessage({ __bundler_need: uuid }, OWN_TARGET);
+      } else if (
+        typeof d.__bundler_page === 'string' &&
+        UUID_SHAPE.test(d.__bundler_page) &&
+        typeof d.__bundler_text === 'string'
+      ) {
+        // The shape test is load-bearing beyond tidiness: the solicited
+        // check below uses the in operator, which matches prototype keys
+        // ('__proto__', 'constructor') — an unshaped key would reach
+        // deliverPage and throw, painting the error banner.
+        // Text is accepted only from the direct parent — the document
+        // that minted this one.
+        if (e.source !== window.parent || window.parent === window) return;
+        if (!(d.__bundler_page in pendingFrames) && !(d.__bundler_page in pendingRelays)) return;
+        deliverPage(d.__bundler_page, d.__bundler_text);
+      }
+    });
+
+    const uuids = Object.keys(manifest);
+    setStatus('Unpacking ' + uuids.length + ' assets...');
+
+    await Promise.all(uuids.map(async (uuid) => {
+      const entry = manifest[uuid];
+      try {
+        const binaryStr = atob(entry.data);
+        const bytes = new Uint8Array(binaryStr.length);
+        for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
+
+        let finalBytes = bytes;
+        if (entry.compressed) {
+          if (typeof DecompressionStream !== 'undefined') {
+            const ds = new DecompressionStream('gzip');
+            const writer = ds.writable.getWriter();
+            const reader = ds.readable.getReader();
+            writer.write(bytes);
+            writer.close();
+            const chunks = [];
+            let totalLen = 0;
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              chunks.push(value);
+              totalLen += value.length;
+            }
+            finalBytes = new Uint8Array(totalLen);
+            let offset = 0;
+            for (const chunk of chunks) { finalBytes.set(chunk, offset); offset += chunk.length; }
+          } else {
+            console.warn('DecompressionStream not available, asset ' + uuid + ' may not render');
+          }
+        }
+
+        if (pageSet.has(uuid)) {
+          pageTexts[uuid] = new TextDecoder().decode(finalBytes);
+          return;
+        }
+        if (FONT_MIME.test(entry.mime) && MIME_TOKEN.test(entry.mime)) {
+          // Strict artifact hosts allow font-src data: but not blob:.
+          blobUrls[uuid] = 'data:' + entry.mime + ';base64,' +
+            (entry.compressed ? toBase64(finalBytes) : entry.data);
+        } else {
+          const blob = new Blob([finalBytes], { type: entry.mime });
+          blobUrls[uuid] = URL.createObjectURL(blob);
+          resourceBlobs[blobUrls[uuid]] = blob;
+        }
+      } catch (err) {
+        console.error('Failed to decode asset ' + uuid + ':', err);
+        const blob = new Blob([], { type: entry.mime });
+        blobUrls[uuid] = URL.createObjectURL(blob);
+        resourceBlobs[blobUrls[uuid]] = blob;
+      }
+    }));
+
+    const extResEl = document.querySelector('script[type="__bundler/ext_resources"]');
+    const extResources = extResEl ? JSON.parse(extResEl.textContent) : [];
+    const resourceMap = {};
+    for (const entry of extResources) {
+      if (blobUrls[entry.uuid]) resourceMap[entry.id] = blobUrls[entry.uuid];
+    }
+
+    // Artifact-host CSP (connect-src 'self') refuses fetch() of blob: URLs —
+    // consumers read these Blobs directly. Survives the swap like the error sink.
+    window.__resourceBlobs = resourceBlobs;
+
+    setStatus('Rendering...');
+    // Page uuids have no blob here — they ride inside about:blank#<uuid>
+    // frame markers the pass below resolves after the swap.
+    for (const uuid of uuids) {
+      if (pageSet.has(uuid)) continue;
+      template = template.split(uuid).join(blobUrls[uuid]);
+    }
+
+    // Strip integrity + crossorigin — blob URLs from a file:// document inherit
+    // a null origin, so crossorigin forces a CORS fetch that SRI then rejects.
+    // The manifest bytes are ours; SRI protects against CDN compromise, not this.
+    template = template.replace(/\s+integrity="[^"]*"/gi, '').replace(/\s+crossorigin="[^"]*"/gi, '');
+
+    const resourceScript = '<script>window.__resources = ' +
+      JSON.stringify(resourceMap).replace(/<\//g, '<\\/') +
+      ';</' + 'script>';
+    // Inject after <head> so the DOCTYPE stays first; prepending the script
+    // would push the parser into quirks mode. DOMParser always emits a <head>
+    // (synthesizing one if the source HTML omitted it) but may carry
+    // attributes through, so match the full opening tag. slice() rather than
+    // replace() keeps us clear of $-pattern substitution in resourceScript.
+    const headOpen = template.match(/<head[^>]*>/i);
+    if (headOpen) {
+      const i = headOpen.index + headOpen[0].length;
+      template = template.slice(0, i) + resourceScript + template.slice(i);
+    }
+
+    // Parse the template and swap the root element. Scripts inserted via
+    // DOMParser/replaceWith are inert per spec — re-create each with
+    // createElement so they execute, awaiting onload for src scripts to
+    // preserve ordering (React before ReactDOM before Babel before text/babel).
+    const doc = new DOMParser().parseFromString(template, 'text/html');
+    document.documentElement.replaceWith(doc.documentElement);
+
+    // Resolve page-frame markers: mint this document's own blob for each
+    // framed page — from local text when this is the root, otherwise by
+    // asking the direct parent over the relay protocol above. An
+    // unanswered request leaves the frame on about:blank, the same
+    // degraded state as a refused embed.
+    {
+      const MARKER = /^about:blank#([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(#.*)?$/;
+      const needed = [];
+      for (const el of Array.from(document.querySelectorAll('iframe'))) {
+        const m = MARKER.exec(el.getAttribute('src') || '');
+        if (!m) continue;
+        const text = pageTexts[m[1]];
+        if (typeof text === 'string') {
+          mountPage(el, m[2] || '', text);
+        } else if (window.parent !== window && !isPageRoot) {
+          const had = pendingFrames[m[1]];
+          (pendingFrames[m[1]] = had || []).push({ el: el, frag: m[2] || '' });
+          if (!had) needed.push(m[1]);
+        }
+      }
+      for (const uuid of needed) {
+        window.parent.postMessage({ __bundler_need: uuid }, OWN_TARGET);
+      }
+    }
+
+    const dead = Array.from(document.scripts);
+    for (const old of dead) {
+      const s = document.createElement('script');
+      for (const a of old.attributes) s.setAttribute(a.name, a.value);
+      s.textContent = old.textContent;
+      // text/babel scripts with a src: read and inline. transformScriptTags
+      // does XHR against the src, but blob:null/ from a file:// origin is
+      // silently dropped. Inlining makes it a plain inline babel script,
+      // which transformScriptTags handles unconditionally.
+      if ((s.type === 'text/babel' || s.type === 'text/jsx') && s.src) {
+        const pre = resourceBlobs[s.src.split('#')[0]];
+        s.textContent = pre ? await pre.text() : await (await fetch(s.src)).text();
+        s.removeAttribute('src');
+      }
+      const p = s.src ? new Promise(function(r) { s.onload = s.onerror = r; }) : null;
+      old.replaceWith(s);
+      if (p) await p;
+    }
+    // Babel standalone auto-transforms type=text/babel on DOMContentLoaded,
+    // which fired before we swapped the document. Trigger manually if present.
+    if (window.Babel && typeof window.Babel.transformScriptTags === 'function') {
+      window.Babel.transformScriptTags();
+    }
+  } catch (err) {
+    setStatus('Error unpacking: ' + err.message);
+    console.error('Bundle unpack error:', err);
+  }
+});
+
+  </script>
+
+  <script type="__bundler/manifest">
+{"1a1f79be-61da-472b-a01e-823081ee5703":{"mime":"text/javascript","compressed":true,"data":"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"}}
+  </script>
+
+  <script type="__bundler/ext_resources">
+[]
+  </script>
+
+  <script type="__bundler/page_order">
+[]
+  </script>
+
+  <script type="__bundler/template">
+"<!DOCTYPE html>\n<html lang=\"es\"><head>\n<meta charset=\"utf-8\">\n<title>Space Invader — Pixel Art 3D<\u002Ftitle>\n<script type=\"importmap\">\n{\n  \"imports\": {\n    \"three\": \"https://unpkg.com/three@0.184.0/build/three.module.js\",\n    \"three/addons/controls/OrbitControls.js\": \"https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js\",\n    \"three/addons/exporters/OBJExporter.js\": \"https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js\",\n    \"three/addons/exporters/GLTFExporter.js\": \"https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js\"\n  },\n  \"integrity\": {\n    \"https://unpkg.com/three@0.184.0/build/three.module.js\": \"sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J\",\n    \"https://unpkg.com/three@0.184.0/build/three.core.js\": \"sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT\",\n    \"https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js\": \"sha384-4rziNxOBZKQ69i+w+f89KJ55TCYquwchVbByQwmaOeIOXdOU2PLDn3kOfXHwIJC9\",\n    \"https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js\": \"sha384-nbwtoZENJD3Vq+ACK0CuGQdPMuDWHkamC2KJD70EV5nfg6jQjfppKOea07YJN+N3\",\n    \"https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js\": \"sha384-VofkvpG6HERhFCYbsUOHeNXBCqID2nfqkQqnVzE1jc/oPcz+qJ13ADdXH08hE+cQ\"\n  }\n}\n<\u002Fscript>\n\n<style>\n  html,body{margin:0;background:#000}\n  three-d-stage:not(:defined){visibility:hidden}\n<\u002Fstyle>\n<\u002Fhead>\n<body>\n<three-d-stage name=\"space-invader\" background=\"#000000\"><\u002Fthree-d-stage>\n<script src=\"1a1f79be-61da-472b-a01e-823081ee5703\"><\u002Fscript>\n<script type=\"module\">\nconst stage = document.querySelector('three-d-stage');\nconst { THREE } = await stage.ready;\n\nconst PATTERN = [\n  '..X.....X..',\n  '...X...X...',\n  '..XXXXXXX..',\n  '.XX.XXX.XX.',\n  'XXXXXXXXXXX',\n  'X.XXXXXXX.X',\n  'X.X.....X.X',\n  '...XX.XX...',\n];\nconst S = 0.1;            // pixel size (m)\nconst D = 0.1;            // depth (m)\nconst rows = PATTERN.length, cols = PATTERN[0].length;\n\nconst body = new THREE.MeshStandardMaterial({ name: 'black_pixel', color: 0x050505, roughness: 0.9, metalness: 0 });\nconst line = new THREE.LineBasicMaterial({ name: 'white_line', color: 0xffffff });\n\nconst cube = new THREE.BoxGeometry(S, S, D);\nconst edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(S + 0.002, S + 0.002, D + 0.002));\n\nconst invader = new THREE.Group();\ninvader.name = 'space_invader';\nPATTERN.forEach((row, r) => {\n  [...row].forEach((c, k) => {\n    if (c !== 'X') return;\n    const x = (k - (cols - 1) / 2) * S;\n    const y = (rows - 1 - r) * S + S / 2;\n    const px = new THREE.Mesh(cube, body);\n    px.name = `pixel_r${r}_c${k}`;\n    px.position.set(x, y, 0);\n    px.castShadow = true;\n    const ln = new THREE.LineSegments(edges, line);\n    ln.name = `outline_r${r}_c${k}`;\n    px.add(ln);\n    invader.add(px);\n  });\n});\n\nstage.setObject(invader);\n<\u002Fscript>\n\n\n<\u002Fbody><\u002Fhtml>"
+  </script>
+</body>
+</html>

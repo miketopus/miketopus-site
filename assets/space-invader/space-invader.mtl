@@ -1,0 +1,7 @@
+# Exported by three-d-stage
+newmtl black_pixel
+Kd 0.0015 0.0015 0.0015
+Ks 0.2000 0.2000 0.2000
+Ns 20
+d 1.0000
+

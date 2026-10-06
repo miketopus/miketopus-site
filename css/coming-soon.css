@@ -89,13 +89,33 @@
 }
 .cs-letters.is-visible { opacity: 1; }
 
+/* Sits in front of the invader, sharing its center (img ratio 4320×738 → h = 17.08vw).
+   Centered with top/margins, not transform — glitch + parallax own transform/translate. */
 .cs-letters {
-  display: none;
-  top: 60vh;
+  top: calc(50% - 8.54vw);
   left: 0;
   width: 100%;
   height: auto;
+  z-index: 3;
+}
+
+/* ─── 3D Space Invader — floats behind the splash ──────────── */
+.cs-invader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(840px, 150vw);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
   z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: plus-lighter;
+  animation: cs-invader-in 0.9s cubic-bezier(0.76, 0, 0.24, 1) 3.1s forwards;
+}
+
+@keyframes cs-invader-in {
+  to { opacity: 0.8; }
 }
 
 /* ── Glitch animation ──────────────────────────────────────────── */
@@ -125,13 +145,16 @@
 }
 
 /* ─── Footer overrides ─────────────────────────────────────────── */
+/* Footer art ends exactly where the bar starts (bar = 96px) */
 .page-coming-soon .footer-space {
   position: fixed;
-  bottom: 0;
+  bottom: 96px;
   left: 0;
   right: 0;
-  height: 761px;
+  height: 585px;
   z-index: 1;
+  background-image: url('../assets/coming-soon/footer-space.png');
+  background-position: center bottom;
 }
 
 .page-coming-soon .bar-footer {
@@ -140,6 +163,7 @@
   left: 0;
   right: 0;
   z-index: 5;
+  background: #0a0b0f;
 }
 
 .bar-footer .cs-date { color: var(--text-link); }
